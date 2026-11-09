@@ -1,0 +1,4265 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"/>
+<title>دوره اصطلاحات انگلیسی برنامه‌نویسان</title>
+<style>
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Regular.ttf') format('truetype'); font-weight:400; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Medium.ttf') format('truetype'); font-weight:500; }
+@font-face { font-family:'Vazirmatn'; src:url('fonts/Vazirmatn-Bold.ttf') format('truetype'); font-weight:700; }
+@font-face { font-family:'JetBrains Mono'; src:url('fonts/JetBrainsMono-Regular.ttf') format('truetype'); font-weight:400; }
+@font-face { font-family:'JetBrains Mono'; src:url('fonts/JetBrainsMono-Bold.ttf') format('truetype'); font-weight:700; }
+
+@page { size: A4; margin: 16mm 13mm 18mm 13mm; }
+
+:root {
+  --ink:#1f1430; --muted:#6d5b85; --line:#e8e1f2;
+  --primary:#7e22ce; --primary-soft:#faf5ff;
+  --accent:#b45309; --accent-soft:#fffbeb;
+  --green:#059669; --green-soft:#ecfdf5;
+  --amber:#b45309; --amber-soft:#fffbeb;
+  --rose:#be123c; --rose-soft:#fff1f2;
+  --code-bg:#241436; --code-ink:#e9e2f5;
+}
+* { box-sizing:border-box; }
+html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body {
+  direction:rtl; text-align:right;
+  font-family:'Vazirmatn', Tahoma, sans-serif;
+  color:var(--ink); font-size:11.2pt; line-height:2;
+  margin:0; padding:0;
+}
+
+/* cover */
+.cover {
+  page-break-after:always; height:250mm;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; color:#fff; border-radius:14px; padding:20mm;
+  background:linear-gradient(135deg,#3b0764 0%,#7e22ce 50%,#c026d3 120%);
+}
+.cover .badge { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35);
+  padding:4px 18px; border-radius:999px; font-size:10pt; letter-spacing:.3px; }
+.cover h1 { font-size:28pt; line-height:1.7; margin:14px 0 6px; border:none; color:#fff; background:none; }
+.cover h2 { font-size:14pt; font-weight:500; color:#f3e8ff; border:none; margin:0; }
+.cover .stack { display:flex; gap:10px; margin-top:26px; flex-wrap:wrap; justify-content:center; }
+.cover .stack span { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3);
+  border-radius:10px; padding:6px 16px; font-size:10.5pt; }
+.cover .foot { margin-top:40px; font-size:9.5pt; opacity:.85; }
+
+/* toc */
+.toc { page-break-after:always; }
+.toc h1 { border:none; }
+.toc ol { list-style:none; padding:0; counter-reset:toc; }
+.toc li { counter-increment:toc; border-bottom:1px dashed var(--line);
+  padding:9px 2px; display:flex; justify-content:space-between; align-items:baseline; }
+.toc a { text-decoration:none; color:var(--ink); font-weight:500; }
+.toc li::before { content:counter(toc); background:var(--primary-soft); color:var(--primary);
+  font-weight:700; border-radius:8px; width:30px; height:30px; display:inline-flex;
+  align-items:center; justify-content:center; margin-left:14px; flex:none; }
+.toc li .desc { color:var(--muted); font-size:9.5pt; }
+
+/* chapters / headings */
+.chapter { page-break-before:always; }
+h1 {
+  font-size:19pt; color:#fff; background:linear-gradient(90deg,#6b21a8,#9333ea);
+  padding:14px 22px; border-radius:12px; line-height:1.7;
+  margin:0 0 18px; page-break-after:avoid;
+}
+h2 {
+  color:var(--primary); font-size:14.5pt; margin:26px 0 10px;
+  padding-right:12px; border-right:4px solid var(--primary); line-height:1.8;
+  page-break-after:avoid;
+}
+h3 { color:var(--accent); font-size:12.5pt; margin:20px 0 8px; page-break-after:avoid; }
+p { margin:8px 0; }
+strong { color:#3b0764; }
+a { color:var(--primary); text-decoration:none; }
+
+/* lists */
+ul, ol { padding-right:1.6em; padding-left:0; margin:8px 0; }
+li { margin:3px 0; }
+li::marker { color:var(--primary); font-weight:700; }
+input[type="checkbox"] { accent-color:var(--primary); }
+
+/* tables */
+table { border-collapse:collapse; width:100%; margin:12px 0; font-size:10pt;
+  border-radius:10px; overflow:hidden; page-break-inside:avoid; }
+th { background:linear-gradient(90deg,#6b21a8,#9333ea); color:#fff; font-weight:700; }
+th, td { border:1px solid #ded2ef; padding:6px 10px; text-align:right; vertical-align:top; }
+tbody tr:nth-child(even) { background:#faf7fd; }
+
+/* code — دیالوگ‌های انگلیسی روی تیره */
+pre, code, kbd { font-family:'JetBrains Mono','Vazirmatn',Consolas,monospace; direction:ltr; }
+code { background:#faf5ff; color:#7e22ce; padding:1px 6px; border-radius:5px;
+  font-size:8.8pt; unicode-bidi:embed; }
+pre { background:var(--code-bg); color:var(--code-ink); direction:ltr; text-align:left;
+  padding:13px 16px; border-radius:12px; overflow-x:hidden; font-size:8.6pt;
+  line-height:1.65; margin:10px 0; border:1px solid #3b0764; page-break-inside:avoid; }
+pre code { background:none; color:inherit; padding:0; font-size:inherit; }
+.codehilite { background:var(--code-bg); border-radius:12px; margin:10px 0; page-break-inside:avoid; }
+.codehilite pre { margin:0; border:none; }
+.codehilite .k,.codehilite .kd,.codehilite .kn,.codehilite .ow { color:#d8b4fe; }
+.codehilite .s,.codehilite .s1,.codehilite .s2,.codehilite .sd { color:#86efac; }
+.codehilite .n,.codehilite .na,.codehilite .nx { color:#e9e2f5; }
+.codehilite .nf { color:#fde047; }
+.codehilite .mi,.codehilite .mf { color:#fda4af; }
+.codehilite .o,.codehilite .p { color:#a78bca; }
+.codehilite .nb,.codehilite .nv { color:#7dd3fc; }
+.codehilite .err { color:#e9e2f5; background:none; border:none; }
+.codehilite .c,.codehilite .c1,.codehilite .cm,.codehilite .cp { color:#c4b5fd !important; font-style:italic; }
+.codehilite .nt { color:#f0abfc; }
+.codehilite .nd { color:#fde047; }
+
+/* blockquotes */
+blockquote {
+  margin:12px 0; padding:10px 16px; border-radius:12px;
+  border-right:5px solid var(--primary); background:var(--primary-soft);
+  page-break-inside:avoid;
+}
+blockquote p { margin:4px 0; }
+blockquote p:first-child { font-weight:500; }
+blockquote:has(> p:first-child strong:contains("⚠")) { background:var(--amber-soft); border-right-color:var(--amber); }
+blockquote:has(> p:first-child strong:contains("🚨")) { background:var(--rose-soft); border-right-color:var(--rose); }
+blockquote:has(> p:first-child strong:contains("💡")) { background:var(--green-soft); border-right-color:var(--green); }
+blockquote:has(> p:first-child strong:contains("🔑")) { background:var(--green-soft); border-right-color:var(--green); }
+blockquote:has(> p:first-child strong:contains("🎯")) { background:var(--primary-soft); border-right-color:var(--primary); }
+blockquote:has(> p:first-child strong:contains("🔊")) { background:#f0fdfa; border-right-color:var(--green); }
+
+/* hr, details */
+hr { border:none; border-top:2px dashed var(--line); margin:22px 0; }
+details { background:#faf7fd; border:1px solid var(--line); border-radius:10px;
+  padding:8px 14px; margin:10px 0; page-break-inside:avoid; }
+summary { cursor:pointer; font-weight:700; color:var(--green); }
+
+/* mermaid */
+.mermaid {
+  background:#fff; border:1px solid var(--line); border-radius:12px;
+  padding:10px; margin:12px 0; text-align:center; page-break-inside:avoid;
+  display:flex; justify-content:center;
+}
+.mermaid svg { max-width:100%; height:auto; }
+
+del { color:var(--muted); }
+em { color:#3b0764; }
+
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #f8f8f8; }
+.codehilite .c { color: #3D7B7B; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #F00 } /* Error */
+.codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666 } /* Operator */
+.codehilite .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #9C6500 } /* Comment.Preproc */
+.codehilite .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #E40000 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #008400 } /* Generic.Inserted */
+.codehilite .go { color: #717171 } /* Generic.Output */
+.codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #04D } /* Generic.Traceback */
+.codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+.codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #B00040 } /* Keyword.Type */
+.codehilite .m { color: #666 } /* Literal.Number */
+.codehilite .s { color: #BA2121 } /* Literal.String */
+.codehilite .na { color: #687822 } /* Name.Attribute */
+.codehilite .nb { color: #008000 } /* Name.Builtin */
+.codehilite .nc { color: #00F; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #800 } /* Name.Constant */
+.codehilite .nd { color: #A2F } /* Name.Decorator */
+.codehilite .ni { color: #717171; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #00F } /* Name.Function */
+.codehilite .nl { color: #767600 } /* Name.Label */
+.codehilite .nn { color: #00F; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #19177C } /* Name.Variable */
+.codehilite .ow { color: #A2F; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #BBB } /* Text.Whitespace */
+.codehilite .mb { color: #666 } /* Literal.Number.Bin */
+.codehilite .mf { color: #666 } /* Literal.Number.Float */
+.codehilite .mh { color: #666 } /* Literal.Number.Hex */
+.codehilite .mi { color: #666 } /* Literal.Number.Integer */
+.codehilite .mo { color: #666 } /* Literal.Number.Oct */
+.codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+.codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+.codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+.codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+.codehilite .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.codehilite .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+.codehilite .sx { color: #008000 } /* Literal.String.Other */
+.codehilite .sr { color: #A45A77 } /* Literal.String.Regex */
+.codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+.codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+.codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #00F } /* Name.Function.Magic */
+.codehilite .vc { color: #19177C } /* Name.Variable.Class */
+.codehilite .vg { color: #19177C } /* Name.Variable.Global */
+.codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+.codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+.codehilite .il { color: #666 } /* Literal.Number.Integer.Long */
+</style></head>
+<body>
+<section class="cover">
+  <div class="badge">آموزش صفر تا صد — نسخه ۲۰۲۶</div>
+  <h1>اصطلاحات انگلیسی<br/>برای برنامه‌نویسان</h1>
+  <h2>از standup تا code review، از PR تا offer — ۲۵۰+ اصطلاح صحنه‌های واقعی</h2>
+  <div class="stack">
+    <span>تلفظ درست</span><span>Scrum &amp; Meetings</span><span>Code Review</span>
+    <span>Errors &amp; Logs</span><span>Chat &amp; Email</span><span>Interview</span>
+  </div>
+  <div class="foot">۱۳ فصل بر اساس صحنه‌های واقعی تیم · دیالوگ · تمرین با جواب · چیت‌شیت جامع</div>
+</section>
+<section class="toc"><h1>فهرست مطالب</h1><ol><li><a href="#ch00">شروع دوره</a><span class="desc">نقشه دوره و قانون طلایی</span></li><li><a href="#ch01">فصل ۱ — اصول تلفظ و فهم</a><span class="desc">تلفظ‌های غلط رایج، compound nouns</span></li><li><a href="#ch02">فصل ۲ — چرخه کدنویسی</a><span class="desc">bug تا silver bullet، technical debt</span></li><li><a href="#ch03">فصل ۳ — جلسات و Scrum</a><span class="desc">standup، blocker، corporate speak</span></li><li><a href="#ch04">فصل ۴ — Code Review</a><span class="desc">LGTM، nit، blocking، قالب PR</span></li><li><a href="#ch05">فصل ۵ — Git</a><span class="desc">rebase، cherry-pick، نجات‌ها</span></li><li><a href="#ch06">فصل ۶ — ارورها و لاگ‌ها</a><span class="desc">stack trace، regression، bug report</span></li><li><a href="#ch07">فصل ۷ — فرانت و UI/UX</a><span class="desc">pixel-perfect، skeleton، a11y</span></li><li><a href="#ch08">فصل ۸ — بک‌اند و API</a><span class="desc">payload، idempotent، rate limit</span></li><li><a href="#ch09">فصل ۹ — دواپس و Production</a><span class="desc">staging، rollback، postmortem</span></li><li><a href="#ch10">فصل ۱۰ — معماری و اصول</a><span class="desc">SOLID، monolith، code smell</span></li><li><a href="#ch11">فصل ۱۱ — چت و مکاتبه</a><span class="desc">FYI، ASAP، جملات مؤدبانه</span></li><li><a href="#ch12">فصل ۱۲ — استخدام و مصاحبه</a><span class="desc">JD، STAR، offer، مذاکره</span></li><li><a href="#ch13">فصل ۱۳ — چیت‌شیت جامع</a><span class="desc">۲۵۰+ اصطلاح در جدول‌های صحنه‌محور</span></li></ol></section><section class="chapter" id="ch00"><h1>🎓 دوره جامع اصطلاحات انگلیسی برنامه‌نویسان — صفر تا آماده‌ی شرکت</h1>
+<blockquote>
+<p><strong>مخاطب:</strong> برنامه‌نویس فارسی‌زبان که انگلیسی‌اش برای داکیومنت کافیه ولی در <strong>تیم، جلسه، Code Review و مصاحبه</strong> به اصطلاح‌ها برمی‌خوره و نمی‌فهمه یا بلد نیست درست تلفظ کنه
+<strong>ساختار:</strong> ۱۳ فصل — مرتب‌شده بر اساس «کجا به اصطلاح برمی‌خوری»: چرخه کدنویسی، جلسه، ریویو، گیت، ارور، فرانت، بک، دواپس، معماری، چت، استخدام</p>
+</blockquote>
+<hr />
+<h2>🎯 چرا این دوره؟</h2>
+<p>تو کد می‌زنی، داکیومنت می‌خونی، stack trace می‌بینی — ولی توی <strong>standup فردا صبح</strong> وقتی لید می‌گه «This is a blocker, let's touch base after the sprint» و می‌خوای جواب بدی، گیر می‌کنی. مشکل تو گرامر نیست؛ <strong>اصطلاحات شغلی‌ان</strong> که توی هیچ دوره‌ی زنی teaching نمی‌شن.</p>
+<p>این دوره:
+- <strong>۲۵۰+ اصطلاح پرتکرار</strong> واقعی تیم‌های نرم‌افزاری — با <strong>تلفظ درست به فارسی</strong> (cache = «کَش» نه «کاچه»!)
+- معنی + جمله‌ی واقعی از محل استفاده (جلسه، چت، PR)
+- دیالوگ‌های واقعی تیمی + تمرین با جواب
+- مرتب‌شده بر اساس <em>صحنه‌ی برخورد</em> — نه الفبایی</p>
+<hr />
+<h2>🗺️ نقشه دوره</h2>
+<table>
+<thead>
+<tr>
+<th>فصل</th>
+<th>صحنه</th>
+<th>اصطلاح‌های نمونه</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#ch01">فصل ۱</a></td>
+<td>اصول: چطور فکر و تلفظ کنیم</td>
+<td>قواعد تلفظ، compound nouns، اشتباهات رایج ایرانی‌ها</td>
+</tr>
+<tr>
+<td><a href="#ch02">فصل ۲</a></td>
+<td>چرخه کدنویسی روزمره</td>
+<td>bug، edge case، technical debt، deprecate</td>
+</tr>
+<tr>
+<td><a href="#ch03">فصل ۳</a></td>
+<td>جلسات و Scrum</td>
+<td>standup، blocker، MVP، touch base</td>
+</tr>
+<tr>
+<td><a href="#ch04">فصل ۴</a></td>
+<td>Code Review و PR</td>
+<td>LGTM، nit， request changes، approve</td>
+</tr>
+<tr>
+<td><a href="#ch05">فصل ۵</a></td>
+<td>Git و ورژن کنترل</td>
+<td>rebase، cherry-pick، upstream، force push</td>
+</tr>
+<tr>
+<td><a href="#ch06">فصل ۶</a></td>
+<td>ارورها و لاگ‌ها</td>
+<td>stack trace، race condition، timeout</td>
+</tr>
+<tr>
+<td><a href="#ch07">فصل ۷</a></td>
+<td>فرانت و UI/UX</td>
+<td>breakpoint، pixel-perfect، skeleton</td>
+</tr>
+<tr>
+<td><a href="#ch08">فصل ۸</a></td>
+<td>بک‌اند و API و دیتابیس</td>
+<td>payload، endpoint، CRUD، webhook</td>
+</tr>
+<tr>
+<td><a href="#ch09">فصل ۹</a></td>
+<td>دواپس و production</td>
+<td>staging، rollback، downtime، incident</td>
+</tr>
+<tr>
+<td><a href="#ch10">فصل ۱۰</a></td>
+<td>معماری و اصول کدنویسی</td>
+<td>SOLID، monolith، anti-pattern</td>
+</tr>
+<tr>
+<td><a href="#ch11">فصل ۱۱</a></td>
+<td>چت و مکاتبه</td>
+<td>FYI، ASAP، TL;DR + جملات مؤدبانه</td>
+</tr>
+<tr>
+<td><a href="#ch12">فصل ۱۲</a></td>
+<td>استخدام و مصاحبه</td>
+<td>senior، offer، notice period</td>
+</tr>
+<tr>
+<td><a href="#ch13">فصل ۱۳</a></td>
+<td>چیت‌شیت جامع + گلاساری + نقشه راه</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🧪 روش استفاده از دوره</h2>
+<ul>
+<li><strong>هر فصل = یک صحنه.</strong> قبل از جلسه بعدی تیم، فصل جلسات رو بخون؛ قبل از اولین PR، فصل ریویو رو.</li>
+<li>تلفظ‌ها <strong>تقریبی به فارسی</strong>‌ان (کَش، آجایل) — هدف اول «فهمیدن و گفتن بدون لکنت» است؛ تلفظ دقیق native بعداً با تمرین می‌آید.</li>
+<li>تمرین‌های هر فصل ۳ نوع‌ان: <strong>درک</strong> (این جمله یعنی چی؟)، <strong>حالت‌سازی</strong> (در این موقعیت چه می‌گویی؟)، <strong>تشخیص</strong> (کدام اصطلاح مناسب‌تر است؟). جواب‌ها داخل بلوک‌های تاشو.</li>
+</ul>
+<p><strong>قانون طلایی:</strong> اصطلاح رو وقتی «بلدی» که بتونی توی جمله خودت استفاده‌ش کنی — نه فقط معنیش رو بدونی. هر اصطلاح جدید، امروز توی چت یا جلسه واقعی ازش استفاده کن.</p>
+<hr />
+<h2>📄 نسخه PDF</h2>
+<p>نسخه PDF رنگی راست‌به‌چپ (فونت وزیرمتن) در همین پوشه: <strong>«دوره کامل اصطلاحات انگلیسی برنامه‌نویسان.pdf»</strong>. بازسازی: <code>python build/build_pdf.py</code> + رندر Chrome headless.</p></section><section class="chapter" id="ch01"><h1>فصل ۱ — اصول: چطور اصطلاحات فنی را بفهمیم و تلفظ کنیم</h1>
+<blockquote>
+<p>🎯 <strong>هدف این فصل:</strong> قبل از حفظ‌کردن اصطلاح‌ها، سه مهارت زیربنایی: (۱) فهمیدن اصطلاح از دل جمله، (۲) تلفظ درستِ پراشتباه‌ها، (۳) الگوی compound noun ها. این فصل «دوره‌ی روش» کل دوره است.</p>
+</blockquote>
+<hr />
+<h2>۱.۱ — چرا انگلیسی برنامه‌نویسی «زبان جدا» است</h2>
+<p>سه ویژگی که انگلیسی فنی را از انگلیسی مدرسه جدا می‌کند:</p>
+<ol>
+<li><strong>معنی متفاوت:</strong> <code>bug</code> = حشره نیست، باگ نرم‌افزاری است؛ <code>commit</code> = ارتکاب نیست، ثبت تغییرات است؛ <code>token</code> = سکه نیست، توکن احراز هویت است</li>
+<li><strong>پر از metaphor ها:</strong> <code>pipeline</code> خط لوله، <code>cache</code> مخزن، <code>deadlock</code> بن‌بست — تصویر ذهنی داشته باش راحت‌تر می‌ماند</li>
+<li><strong>فشرده و خلاصه‌گویی:</strong> <code>TL;DR</code>، <code>LGTM</code>، <code>ASAP</code> — حروف مخفف که کل جمله هستند</li>
+</ol>
+<p>قاعده فهم: <strong>معنی دیکشنری را دور بریز؛ همیشه از جمله و صحنه معنی بگیر.</strong> «We need to deprecate this API» را ترجمه لغوی نمی‌فهمی؛ ولی می‌دانی این یعنی «بریم این API را بازنشسته کنیم».</p>
+<h2>۱.۲ — 🔊 تلفظ‌هایی که ایرانی‌ها غلط می‌گویند (جداول طلا)</h2>
+<h3>غلط‌های کلاسیک</h3>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>❌ رایج بین ما</th>
+<th>✅ درست</th>
+<th>یادآوری</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cache</td>
+<td>«کا-چه»</td>
+<td><strong>کَش</strong></td>
+<td>مثل «cash» — نه کاچ!</td>
+</tr>
+<tr>
+<td>agile</td>
+<td>«آگیل»</td>
+<td><strong>اَجایل</strong></td>
+<td>اِ-جای-ل</td>
+</tr>
+<tr>
+<td>data</td>
+<td>«داتا»</td>
+<td><strong>دِیتا</strong></td>
+<td>دِی-تا</td>
+</tr>
+<tr>
+<td>variable</td>
+<td>«وریابل»</td>
+<td><strong>وِری-اِبل</strong></td>
+<td>وِ-ری-اِ-بل</td>
+</tr>
+<tr>
+<td>query</td>
+<td>«کوئری» ✅ ولی «کِری» ❌</td>
+<td><strong>کْوِ-ری</strong></td>
+<td>کْوِری</td>
+</tr>
+<tr>
+<td>async</td>
+<td>«آسی‌نیک»</td>
+<td><strong>اِی-سینک</strong></td>
+<td>اِی-سینک</td>
+</tr>
+<tr>
+<td>synchronous</td>
+<td>—</td>
+<td><strong>سینک-رو-نوس</strong></td>
+<td>سینک همیشه</td>
+</tr>
+<tr>
+<td>database</td>
+<td>«داتابیس»</td>
+<td><strong>دِیتا-بِیس</strong></td>
+<td>دیتا-بِیس</td>
+</tr>
+<tr>
+<td>interface</td>
+<td>«اینترفیص»</td>
+<td><strong>این-تر-فِیس</strong></td>
+<td>فِیس مثل face</td>
+</tr>
+<tr>
+<td>framework</td>
+<td>«فریم‌ورک» ✅ رایج و درست</td>
+<td><strong>فِریم-ورک</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>regex</td>
+<td>«رج‌کس»</td>
+<td><strong>رِج-اِکس</strong></td>
+<td>regular expression</td>
+</tr>
+<tr>
+<td>char</td>
+<td>«چار»</td>
+<td><strong>کار</strong></td>
+<td>character → char</td>
+</tr>
+<tr>
+<td>GUI</td>
+<td>«گوویی»</td>
+<td><strong>گو-یی</strong> (حرف‌به‌حرف G-U-I)</td>
+<td>یا «گویی»</td>
+</tr>
+<tr>
+<td>image</td>
+<td>«ایمج»</td>
+<td><strong>ای-میج</strong></td>
+<td>ایمیج</td>
+</tr>
+<tr>
+<td>queue</td>
+<td>«کِی-یو-اِی» ✅ (حروف) یا «کیو»</td>
+<td><strong>کیو</strong></td>
+<td>مثل حرف Q</td>
+</tr>
+<tr>
+<td>pseudo</td>
+<td>«پسودو»</td>
+<td><strong>سودو</strong></td>
+<td>P بی‌صدا</td>
+</tr>
+<tr>
+<td>LINUX</td>
+<td>«لای-ناکس»</td>
+<td><strong>لی-نوکس</strong></td>
+<td>لینوس می‌گفت «لی‌نوکس»</td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>«اوبنتو» ✅</td>
+<td><strong>اوبونتو</strong></td>
+<td>اُ-بون-تو</td>
+</tr>
+<tr>
+<td>Sudo</td>
+<td>«سودو» ✅</td>
+<td><strong>سودو</strong></td>
+<td>مثل pseudo</td>
+</tr>
+</tbody>
+</table>
+<h3>قواعد کلی برای حدس زدن</h3>
+<ul>
+<li><strong>th</strong> = تِ ساده یا ذِ (thin → تین، with → ویذ) — هرگز «ت-ه» دوحرفی نگو</li>
+<li><strong>ed</strong> آخر فعل = فقط «د» یا «ت» (deployed → دی-پلوید، shipped → شیت) — «اِد» جدا نگو</li>
+<li><strong>تأکید compound noun روی کلمه اول:</strong> <em>data</em>base، <em>frame</em>work، <em>feature</em> branch — تلفظ دومی را ضعیف بگو</li>
+<li>مخفف‌ها دو دسته: <strong>حرف‌به‌حرف</strong> (API، CSS، SQL، UI) یا <strong>کلمه‌خوانی</strong> (GUI، npm خوانده نمی‌شود!)</li>
+<li>وقتی مطمئن نیستی، ساده‌ترین تلفظ آهنی-لینگویی را بگو؛ غلط گفتن رخ نمی‌دهد، نگفتن رخ می‌دهد</li>
+</ul>
+<h2>۱.۳ — الگوی طلایی: Compound Nouns</h2>
+<p>اصطلاحات فنی اکثراً دو-سه کلمه چسبیده‌ان. الگوی ساخت‌شان را یاد بگیری، معنی‌شان را حدس می‌زنی:</p>
+<table>
+<thead>
+<tr>
+<th>الگو</th>
+<th>مثال</th>
+<th>معنی حدس‌زدنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>اسم + اسم</td>
+<td><code>merge conflict</code></td>
+<td>تعارضِ ادغام</td>
+</tr>
+<tr>
+<td>صفت + اسم</td>
+<td><code>breaking change</code></td>
+<td>تغییرِ شکست‌دهنده</td>
+</tr>
+<tr>
+<td>فعل-ing + اسم</td>
+<td><code>coding standard</code></td>
+<td>استانداردِ کدنویسی</td>
+</tr>
+<tr>
+<td>اسم + of + اسم</td>
+<td><code>point of failure</code></td>
+<td>نقطه‌ی خرابی</td>
+</tr>
+<tr>
+<td>فعل + قید</td>
+<td><code>roll back</code></td>
+<td>برگرداندن به عقب</td>
+</tr>
+</tbody>
+</table>
+<p>و <strong>فعل‌سازی:</strong> هر اسمی می‌تواند فعل شود! <code>ship it</code> (= منتشرش کن)، <code>google it</code>، <code>we'll refactor this later</code> — «اسکوپ شد» را هم توی تیم‌ها می‌گویی، آن‌ها هم همین کار را می‌کنند.</p>
+<h2>۱.۴ — جمله‌خوانی: تکنیک ۳-ثانیه‌ای</h2>
+<p>وقتی اصطلاح ناشناس دیدی:</p>
+<div class="codehilite"><pre><span></span><code>1. آیا مخفف است؟ (حروف بزرگ؟) → فصل ۱۱ این دوره / جستجوی سریع
+2. آیا compound است؟ (دو کلمه چسبیده؟) → الگوی ۱.۳ را باز کن
+3. آیا در جمله «نقش» دارد؟ (فعل است؟ اسم است؟ صفت؟)
+4. حدس بزن → در جمله بعدی تستش کن → اگر جور درآمد، یاد گرفتی
+</code></pre></div>
+
+<p>مثال: «The build is flaky» → build ساخت است، flaky شکستنی/بی‌ثبات → «بی‌یلدِ build ما بی‌ثباته» ✅</p>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>معنی از صحنه بگیر، نه دیکشنری؛ اصطلاح‌های فنی metaphor و فشرده‌اند</li>
+<li>جدول غلط‌های کلاسیک را مرور کن: cache/کَش، agile/اَجایل، char/کار</li>
+<li>compound noun: تأکید روی کلمه اول؛ معنی از ترکیب حدس زدنی است</li>
+<li>اسم‌سازی از هر لغت مجاز است — ship it!</li>
+<li>تکنیک ۳ ثانیه: مخفف؟ compound؟ نقش دستوری؟ حدس؟</li>
+</ul>
+<h2>📝 تمرین فصل ۱</h2>
+<ol>
+<li>تلفظ درست را انتخاب کن: (الف) cache: کاچه / کَش (ب) agile: آگیل / اَجایل (ج) query: کوئری / کِری (د) async: آسی‌نیک / اِی-سینک</li>
+<li>معنی این compound ها را حدس بزن (بدون جستجو): <code>memory leak</code>، <code>pain point</code>، <code>time box</code>، <code>quick win</code></li>
+<li>جمله را به فارسی روان ترجمه کن: «Let's not reinvent the wheel — we'll just use an off-the-shelf solution for now.»</li>
+<li>سه اصطلاح که تا حالا تلفظش را غلط می‌گفتی بنویس و تلفظ درستش را یادداشت کن.</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>(الف) کَش — (ب) اَجایل — (ج) کوئری درست است، «کِری» غلط — (د) اِی-سینک</li>
+<li>memory leak = نشت حافظه (حافظه‌ای که آزاد نمی‌شود و به مرور می‌سوزد)؛ pain point = نقطه درد (مشکل اصلی کاربر/تیم)؛ time box = زمان‌بندی محدود (برای این کار فقط X ساعت داریم)؛ quick win = برنده‌ی سریع (کار کوچک با نتیجه فوری)</li>
+<li>«چرخ را دوباره اختراع نکنیم — فعلاً از یک راه‌حل آماده استفاده می‌کنیم.» (reinvent the wheel = ساختن دوباره چیزی که هست؛ off-the-shelf = آماده/خریدنی)</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> اصطلاحات چرخه کدنویسی روزمره — bug تا silver bullet.</p></section><section class="chapter" id="ch02"><h1>فصل ۲ — چرخه کدنویسی روزمره: از feature تا silver bullet</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> روز کاری معمولی — «این feature رو بگیر، این bug رو fix کن، ولی حواست به technical debt باشه». پرکاربردترین ~۲۰ اصطلاحی که هر روز می‌شنوی.</p>
+</blockquote>
+<hr />
+<h2>۲.۱ — هسته کار: bug، feature، fix</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>معنی</th>
+<th>جمله واقعی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>feature</strong></td>
+<td>فی-چِر</td>
+<td>قابلیت جدید</td>
+<td>«This feature ships next sprint.»</td>
+</tr>
+<tr>
+<td><strong>bug</strong></td>
+<td>باگ</td>
+<td>خطای نرم‌افزار</td>
+<td>«There's a nasty bug in checkout.»</td>
+</tr>
+<tr>
+<td><strong>fix</strong></td>
+<td>فیکس</td>
+<td>رفع باگ</td>
+<td>«Hotfix is deployed.»</td>
+</tr>
+<tr>
+<td><strong>issue</strong></td>
+<td>ایشو</td>
+<td>مسئله/گزارش (در tracker)</td>
+<td>«Open an issue, please.»</td>
+</tr>
+<tr>
+<td><strong>reproduce / repro</strong></td>
+<td>ری-پرو-دیوس / ریپرو</td>
+<td>بازتولید خطا</td>
+<td>«I can't reproduce it on my machine.»</td>
+</tr>
+<tr>
+<td><strong>root cause</strong></td>
+<td>روت کاز</td>
+<td>ریشه اصلی مشکل</td>
+<td>«We found the root cause — it's a race condition.»</td>
+</tr>
+<tr>
+<td><strong>workaround</strong></td>
+<td>ورک-ا-راوند</td>
+<td>راه‌حل موقتی</td>
+<td>«It's a workaround, not a real fix.»</td>
+</tr>
+<tr>
+<td><strong>patch</strong></td>
+<td>پَچ</td>
+<td>وصله کوچک</td>
+<td>«Security patch coming today.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 جمله‌ی طلایی که در هر تیم می‌شنوی: «Works on my machine!» — شوخی معروف وقتی باگی فقط روی سیستم یک نفر است. و جواب استانداردش: «Then it's an environment issue.»</p>
+</blockquote>
+<h2>۲.۲ — کیفیت و بزرگی: edge case تا spaghetti</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>معنی</th>
+<th>صحنه</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>edge case</strong></td>
+<td>اِج کِیس</td>
+<td>حالت مرزی/نادر</td>
+<td>«What about edge cases — empty cart? null user?»</td>
+</tr>
+<tr>
+<td><strong>corner case</strong></td>
+<td>کورنر کِیس</td>
+<td>حالت خیلی حاشیه‌ای</td>
+<td>«That's an extreme corner case, skip it for now.»</td>
+</tr>
+<tr>
+<td><strong>happy path</strong></td>
+<td>ها-پی پَث</td>
+<td>مسیر بدون خطا</td>
+<td>«The happy path works; errors are a mess.»</td>
+</tr>
+<tr>
+<td><strong>smoke test</strong></td>
+<td>اسموک تست</td>
+<td>تست اولیه دود (کار می‌کند یا نه؟)</td>
+<td>«Run a smoke test before pushing.»</td>
+</tr>
+<tr>
+<td><strong>technical debt</strong></td>
+<td>تِک-نیکل دِت</td>
+<td>بدهی فنی (کد سریعِ کثیف)</td>
+<td>«We're accumulating technical debt.»</td>
+</tr>
+<tr>
+<td><strong>refactor</strong></td>
+<td>ری-فَک-تِر</td>
+<td>بازسازی بدون تغییر رفتار</td>
+<td>«Refactor now or cry later.»</td>
+</tr>
+<tr>
+<td><strong>legacy</strong></td>
+<td>لِگِسی</td>
+<td>قدیمی و موروثی</td>
+<td>«Nobody touches that legacy module.»</td>
+</tr>
+<tr>
+<td><strong>spaghetti code</strong></td>
+<td>اسپاگِتی کُد</td>
+<td>کد درهم‌وبرهم</td>
+<td>«That file is spaghetti code.»</td>
+</tr>
+<tr>
+<td><strong>hardcoded</strong></td>
+<td>هارد-کُدِد</td>
+<td>ثابت‌نویسی در کد</td>
+<td>«The API URL is hardcoded — bad.»</td>
+</tr>
+<tr>
+<td><strong>scalable</strong></td>
+<td>اسکِیل-ابل</td>
+<td>مقیاس‌پذیر</td>
+<td>«This design isn't scalable.»</td>
+</tr>
+<tr>
+<td><strong>robust</strong></td>
+<td>رو-بَست</td>
+<td>مقاوم/محکم</td>
+<td>«Make it robust against bad input.»</td>
+</tr>
+<tr>
+<td><strong>flaky</strong></td>
+<td>فلِی-کی</td>
+<td>بی‌ثبات (گاهی پاس، گاهی fail)</td>
+<td>«These tests are flaky.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 تصویر ذهنی‌ها: <strong>technical debt</strong> = وام گرفتن زمان از آینده (سریع کد بزن، بعداً بهره‌اش رو پرداخت کن)؛ <strong>edge case</strong> = لبه‌ی صندلی که کاربر می‌افته؛ <strong>happy path</strong> = جاده‌ی صاف بدون چاله.</p>
+</blockquote>
+<h2>۲.۳ — چرخه انتشار: MVP تا deprecate</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>معنی</th>
+<th>صحنه</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MVP</strong></td>
+<td>اِم-وی-پی</td>
+<td>Minimum Viable Product — کمینه‌ی قابل‌عرضه</td>
+<td>«Ship the MVP first.»</td>
+</tr>
+<tr>
+<td><strong>ship / ship it</strong></td>
+<td>شیپ</td>
+<td>منتشر کن!</td>
+<td>«Ship it! 🚀»</td>
+</tr>
+<tr>
+<td><strong>release</strong></td>
+<td>ری-لیس</td>
+<td>انتشار نسخه</td>
+<td>«Release 2.0 is out.»</td>
+</tr>
+<tr>
+<td><strong>breaking change</strong></td>
+<td>بریکینگ چِینج</td>
+<td>تغییر شکست‌دهنده (نسخه قبلی‌ها را می‌شکند)</td>
+<td>«This is a breaking change — major bump.»</td>
+</tr>
+<tr>
+<td><strong>deprecated</strong></td>
+<td>دِپ-ری-کِی-تِد</td>
+<td>منسوخ‌شده (هنوز کار می‌کند، ولی نرو سمتش)</td>
+<td>«This method is deprecated.»</td>
+</tr>
+<tr>
+<td><strong>sunset</strong></td>
+<td>سان-سِت</td>
+<td>تعطیلی تدریجی محصول/قابلیت</td>
+<td>«We're sunsetting the old dashboard.»</td>
+</tr>
+<tr>
+<td><strong>out of scope</strong></td>
+<td>آوت اِو اسکوپ</td>
+<td>خارج از دامنه پروژه</td>
+<td>«That's out of scope for this sprint.»</td>
+</tr>
+<tr>
+<td><strong>scope creep</strong></td>
+<td>اسکوپ کریپ</td>
+<td>خزیدنِ دامنه (کارِ اضافه‌ی ناخواسته)</td>
+<td>«Beware of scope creep.»</td>
+</tr>
+<tr>
+<td><strong>quick win</strong></td>
+<td>کوئیک وین</td>
+<td>دستاورد سریع</td>
+<td>«Let's grab some quick wins first.»</td>
+</tr>
+<tr>
+<td><strong>low-hanging fruit</strong></td>
+<td>لو-هَنگینگ فروت</td>
+<td>میوه‌ی آسان (کار آسانِ پربازده)</td>
+<td>«Fix the low-hanging fruit first.»</td>
+</tr>
+<tr>
+<td><strong>silver bullet</strong></td>
+<td>سیل-وِر بولِت</td>
+<td>راه‌حل جادویی (که وجود ندارد!)</td>
+<td>«There's no silver bullet for performance.»</td>
+</tr>
+<tr>
+<td><strong>bikeshedding</strong></td>
+<td>بایک-شِدینگ</td>
+<td>بحث بی‌مورد روی جزئیات</td>
+<td>«This is bikeshedding — move on.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 دیالوگ واقعی جلسه (فهم کن، بعد بلند بخوان):</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>PM:  We need payments by Friday.
+Dev: Full payments are out of scope for Friday. The MVP is a
+     manual invoice flow; proper integration is next sprint.
+PM:  That's a hard blocker for the launch...
+Dev: We can ship a quick win: Zarinpal-only, no refunds. The rest
+     is technical debt we'll pay down later.
+PM:  Deal. But no scope creep!
+</code></pre></div>
+
+<p>ترجمه روان: مدیر محصول پرداخت تا جمعه می‌خواهد؛ دولوپر می‌گوید پرداخت کامل خارج از دامنه است، MVP فاکتور دستی است؛ بعد راه‌حل میان‌برِ زرین‌پال‌فقط را می‌گذارد و بقیه را بدهی فنی می‌کند.</p>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>هسته: feature/bug/fix/issue/reproduce/root cause — «works on my machine» شوخی رایج</li>
+<li>کیفیت: edge case، happy path، technical debt، refactor، legacy، flaky</li>
+<li>انتشار: MVP، ship it، breaking change، deprecated، sunset</li>
+<li>مدیریت دامنه: out of scope، scope creep، quick win، low-hanging fruit</li>
+<li>جادو وجود ندارد: no silver bullet؛ جزئیات‌بازی = bikeshedding</li>
+</ul>
+<h2>📝 تمرین فصل ۲</h2>
+<ol>
+<li>درک: «I hacked together a workaround, but it's accumulating technical debt.» یعنی چه؟</li>
+<li>چه اصطلاحی مناسب‌تر است؟ «The user typed 5000 chars in the name field and the app crashed» → این یک ... است. (bug عادی / edge case / breaking change)</li>
+<li>تلفظ‌ها را بنویس: deprecate، scalable، robust، legacy</li>
+<li>حالت‌سازی: لیدت می‌گوید «Can you ship the search feature by Wednesday?» ولی می‌دانی Wednesday عدد واقعی نیست. با سه اصطلاح از این فصل جواب حرفه‌ای بده (انگلیسی + ترجمه).</li>
+<li>تشخیص: کدام‌یک technical debt است؟ (الف) تست خودکار نوشتن (ب) برای سرعت، validation را skip کردن با توضیح TODO (ج) مستندسازی</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«یک راه‌حل موقتی سریع‌وساخت درآوردم، ولی داره بدهی فنی جمع می‌کنه» — یعنی الان کار می‌کند ولی بعداً باید درستش کنی.</li>
+<li><strong>edge case</strong> — ورودی نادر/مرزی که مسیر عادی را می‌شکند.</li>
+<li>دِپ-ری-کِی-تِد / اسکِیل-ابل / رو-بَست / لِگِسی</li>
+<li>نمونه: «Full search is out of scope by Wednesday, but I can ship a quick win — a basic title-only search. The advanced filters are next sprint; anything more would be scope creep.» (ترجمه: جستجوی کامل تا سه‌شنبه خارج از دامنه است، ولی یک برنده‌ی سریع — جستجوی ساده عنوان — می‌توانم بدهم؛ فیلترهای پیشرفته اسپرینت بعدی است؛ بیشتر از این scope creep می‌شود.)</li>
+<li>(ب) — skip کردن با TODO یعنی «سریع الان، پرداخت بعداً» = دقیقاً بدهی فنی.</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> جلسات و Scrum — standup، blocker، sprint و ادبیات جلسات.</p></section><section class="chapter" id="ch03"><h1>فصل ۳ — جلسات و Scrum: ادبیات standup و اسپرینت</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> ۹ صبح standup داری؛ لید می‌پرسد «Any blockers?» و تو باید در ۳۰ ثانیه گزارش بدهی. اصطلاحات Scrum و ادبیات جلسات — پرتکرارترین مکالمه شغلی تو از فردا.</p>
+</blockquote>
+<hr />
+<h2>۳.۱ — لغت‌نامه Scrum (چارچوب چرخه کار)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>معنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>sprint</strong></td>
+<td>اسپرینت</td>
+<td>دوره کاری ۱-۲ هفته‌ای</td>
+<td>«This sprint we ship auth.»</td>
+</tr>
+<tr>
+<td><strong>backlog</strong></td>
+<td>بَک-لاگ</td>
+<td>لیست کل کارهای باقی</td>
+<td>«Add it to the backlog.»</td>
+</tr>
+<tr>
+<td><strong>sprint backlog</strong></td>
+<td>—</td>
+<td>کارهای این اسپرینت</td>
+<td>«It's not in the sprint backlog.»</td>
+</tr>
+<tr>
+<td><strong>user story</strong></td>
+<td>یوزر استوری</td>
+<td>یک کار به زبان کاربر</td>
+<td>«This story needs refinement.»</td>
+</tr>
+<tr>
+<td><strong>story points</strong></td>
+<td>استوری پوینتس</td>
+<td>واحد سختی/حجم کار</td>
+<td>«This is 3 story points.»</td>
+</tr>
+<tr>
+<td><strong>velocity</strong></td>
+<td>وِ-لا-سی-تی</td>
+<td>سرعت تیم در اسپرینت</td>
+<td>«Our velocity dropped this sprint.»</td>
+</tr>
+<tr>
+<td><strong>standup</strong></td>
+<td>استَند-آپ</td>
+<td>جلسه روزانه ایستاده ۱۵ دقیقه‌ای</td>
+<td>«See you at standup.»</td>
+</tr>
+<tr>
+<td><strong>retrospective / retro</strong></td>
+<td>رِت-رو-اس-پِک-تیو / رِترو</td>
+<td>جلسه «چه شد/چه نشد» آخر اسپرینت</td>
+<td>«In the retro, let's discuss the outage.»</td>
+</tr>
+<tr>
+<td><strong>demo / sprint review</strong></td>
+<td>دِمُو</td>
+<td>نمایش کار انجام‌شده</td>
+<td>«Ready for the demo?»</td>
+</tr>
+<tr>
+<td><strong>refinement / grooming</strong></td>
+<td>ری-فاین-منت</td>
+<td>آماده‌سازی استوری‌های آینده</td>
+<td>«Refinement is tomorrow.»</td>
+</tr>
+<tr>
+<td><strong>epic</strong></td>
+<td>اِپیک</td>
+<td>مجموعه‌ی بزرگ از استوری‌ها</td>
+<td>«This belongs to the payments epic.»</td>
+</tr>
+<tr>
+<td><strong>assignee / reporter</strong></td>
+<td>اِسای-نی / ری-پور-تر</td>
+<td>مسئول کار / گزارش‌دهنده تیکِت</td>
+<td>«You're the assignee now.»</td>
+</tr>
+<tr>
+<td><strong>sprint goal</strong></td>
+<td>اسپرینت گول</td>
+<td>هدف اصلی اسپرینت</td>
+<td>«Our sprint goal is onboarding.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۳.۲ — سه جمله‌ی standup (قالب آماده — حفظ کن!)</h2>
+<p>فرمت استاندارد: «دیروز / امروز / موانع»</p>
+<div class="codehilite"><pre><span></span><code>1. Yesterday I finished the login endpoint and started on validation.
+   (دیروز اندپوینت لاگین را تمام کردم و validation را شروع کردم)
+
+2. Today I'll continue with validation and start writing tests.
+   (امروز validation را ادامه می‌دهم و شروع به نوشتن تست می‌کنم)
+
+3. No blockers. / I'm blocked on the API keys — still waiting on DevOps.
+   (مانعی ندارم / روی کلیدهای API قفل هستم — هنوز منتظر DevOps هستم)
+</code></pre></div>
+
+<p>واژه‌های ریز این گزارش:</p>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th>مثال</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>blocker / blocked on</strong></td>
+<td>مانع / قفل‌شده روی</td>
+<td>«I'm blocked on design approval.»</td>
+</tr>
+<tr>
+<td><strong>in progress</strong></td>
+<td>در حال انجام</td>
+<td>«The PR is in progress.»</td>
+</tr>
+<tr>
+<td><strong>WIP</strong></td>
+<td>work in progress — همان in progress</td>
+<td>«It's WIP, don't review yet.»</td>
+</tr>
+<tr>
+<td><strong>wrap up</strong></td>
+<td>جمع‌بندی/تمام کردن</td>
+<td>«Wrapping up the payment flow today.»</td>
+</tr>
+<tr>
+<td><strong>pick up / take over</strong></td>
+<td>برداشتن/تحویل گرفتن کار</td>
+<td>«I'll pick up the ticket.»</td>
+</tr>
+<tr>
+<td><strong>hand off</strong></td>
+<td>تحویل دادن به دیگری</td>
+<td>«I'm handing this off to Reza.»</td>
+</tr>
+<tr>
+<td><strong>push back</strong></td>
+<td>مقاومت/رد کردن درخواست</td>
+<td>«We pushed back on the deadline.»</td>
+</tr>
+<tr>
+<td><strong>align / on the same page</strong></td>
+<td>هم‌نظر شدن / هم‌نظر بودن</td>
+<td>«Let's align on the scope.»</td>
+</tr>
+<tr>
+<td><strong>ETA</strong></td>
+<td>estimated time of arrival — زمان تخمینی اتمام</td>
+<td>«ETA? — End of tomorrow.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۳.۳ — اصطلاحات «ادبیات جلسه» (سؤال‌برانگیزترین‌ها)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>یعنی واقعاً چی</th>
+<th>مثال</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>touch base</strong></td>
+<td>تاچ بِیس</td>
+<td>هم‌حرف زدن سریع</td>
+<td>«Let's touch base after the demo.»</td>
+</tr>
+<tr>
+<td><strong>circle back</strong></td>
+<td>سرکل بَک</td>
+<td>بعداً برگردیم سرش</td>
+<td>«Good point — let's circle back on pricing.»</td>
+</tr>
+<tr>
+<td><strong>deep dive</strong></td>
+<td>دیپ دایو</td>
+<td>بررسی عمیق</td>
+<td>«We need a deep dive on the perf issue.»</td>
+</tr>
+<tr>
+<td><strong>take this offline</strong></td>
+<td>تیک دیس آف-لاین</td>
+<td>این را خارج از جلسه حل کنیم</td>
+<td>«Let's take this offline — it's blocking everyone.»</td>
+</tr>
+<tr>
+<td><strong>action item</strong></td>
+<td>اَکشن آی-تم</td>
+<td>کار مشخص خروجی جلسه</td>
+<td>«Action items: Ali fixes the build.»</td>
+</tr>
+<tr>
+<td><strong>bandwidth</strong></td>
+<td>بَند-ویذ</td>
+<td>ظرفیت/وقت خالی</td>
+<td>«I don't have the bandwidth this week.»</td>
+</tr>
+<tr>
+<td><strong>heads-up</strong></td>
+<td>هِدز-آپ</td>
+<td>خبر مقدماتی</td>
+<td>«Heads-up: deploy tonight.»</td>
+</tr>
+<tr>
+<td><strong>on my plate</strong></td>
+<td>آن مای پِی-ت</td>
+<td>روی میزم است (بار کاری)</td>
+<td>«I have a lot on my plate.»</td>
+</tr>
+<tr>
+<td><strong>double-click on</strong></td>
+<td>دابل-کلیک اون</td>
+<td>بازش کنیم بیشتر (تینکریلی!)</td>
+<td>«Let's double-click on that idea.»</td>
+</tr>
+<tr>
+<td><strong>park it</strong></td>
+<td>پارک ایت</td>
+<td>بذاریم کنار فعلاً</td>
+<td>«Park it in the backlog.»</td>
+</tr>
+<tr>
+<td><strong>make the call</strong></td>
+<td>میک ذِ کال</td>
+<td>تصمیم نهایی بگیرد</td>
+<td>«The lead will make the call.»</td>
+</tr>
+<tr>
+<td><strong>sanity check</strong></td>
+<td>سَن-یتی چِک</td>
+<td>چک عقلانی/سریع</td>
+<td>«Quick sanity check before we commit.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ این‌ها «corporate speak» انگلیسی‌اند — پر از metaphor. «Bandwidth» یعنی اینترنت نیست؛ «double-click» ربطی به موس ندارد؛ «take it offline» یعنی جلسه را رها نکنیم، بعداً خصوصی.</p>
+</blockquote>
+<h2>۳.۴ — خواستن/پیشنهاد دادن مؤدبانه (برای غریبه‌های انگلیسی!)</h2>
+<div class="codehilite"><pre><span></span><code>پیشنهاد:  How about we split the ticket?          (چطوره تیکت رو بشکنیم؟)
+          Maybe we could start with the API first. (شاید اول API رو شروع کنیم)
+درخواست:  Could you take a look at my PR?          (می‌شه به PR من نگاه کنی؟)
+          Would it be possible to extend the deadline? (ممکنه ددلاین تمدید شه؟)
+مخالفت:   I see your point, but there's a risk with... (حرفت درسته، ولی یه ریسک...)
+          Not sure about that — what if the API fails? (مطمئن نیستم — اگه API فیل شه چطور؟)
+بی‌اطلاع: I'll get back to you on that.             (جوابشو بهت می‌دم)
+          I need to check with the team first.       (اول باید با تیم چک کنم)
+</code></pre></div>
+
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>چرخه: sprint → backlog → standup (دیروز/امروز/blockers) → demo → retro</li>
+<li>گزارش standup با سه قالب آماده + blocker/in progress/WIP</li>
+<li>corporate speak: touch base، circle back، bandwidth، heads-up، on my plate</li>
+<li>مؤدبانه: How about / Could you / I see your point, but / I'll get back to you</li>
+</ul>
+<h2>📝 تمرین فصل ۳</h2>
+<ol>
+<li>درک: «Let's park it and circle back in the retro.» یعنی چی؟</li>
+<li>standup سه‌خطی خودت را به انگلیسی بنویس (کار واقعی امروزت!) — با سه اصطلاح از این فصل.</li>
+<li>حالت‌سازی: PM وسط standup می‌گوید «We also need dark mode this sprint.» تو با two اصطلاح (bandwidth، out of scope یا backlog) جواب بده.</li>
+<li>کدام‌یک corporate speak است و یعنی چی: (الف) deep dive (ب) sanity check (ج) touch base (د) low-hanging fruit</li>
+<li>تلفظ‌ها: retrospective، assignee، velocity، ETA</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«بذاریمش کنار و توی جلسه retro دوباره بریم سراغش.»</li>
+<li>
+<p>نمونه: «Yesterday I finished the header component and started the cart logic. Today I'll wrap up the cart and push a draft PR. No blockers, but I need a design review — heads-up!»</p>
+</li>
+<li>
+<p>نمونه: «I hear you, but my bandwidth is full with checkout this sprint — and dark mode is out of scope for the current sprint goal. Can we park it in the backlog for next sprint's refinement?»
+(می‌شنوم، ولی ظرفیت من این اسپرینت پر از checkout است — و dark mode خارج از دامنه هدف اسپرینت فعلی است؛ می‌شود در backlog برای refinement بعدی پارکش کنیم؟)</p>
+</li>
+<li>همه corporate speak اند! (الف) بررسی عمیق — (ب) چک عقلانی سریع — (ج) هم‌حرفی سریع — (د) کار آسان پربازده (فصل ۲).</li>
+<li>رِت-رو-اس-پِک-تیو / اِسای-نی / وِ-لا-سی-تی / اِی-تی-اِی (حرف‌به‌حرف)</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> Code Review — ادبیات PR و آن دیسکوهای LGTM!</p></section><section class="chapter" id="ch04"><h1>فصل ۴ — Code Review و Pull Request: ادبیات دروازه کیفیت</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> PR زدی؛ کامنت‌ها داره میان: «LGTM 🎉»، «nit: rename this variable»، «Blocking: this leaks the API key». ادبیات ریویو — هم خواندن و هم <strong>نوشتن</strong>.</p>
+</blockquote>
+<hr />
+<h2>۴.۱ — چرخه PR و وضعیت‌هایش</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>معنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PR (Pull Request) / MR</strong></td>
+<td>پی-آر / اِم-آر</td>
+<td>درخواست ادغام (MR = اصطلاح گیت‌لب)</td>
+<td>«Open a PR when ready.»</td>
+</tr>
+<tr>
+<td><strong>draft PR / WIP</strong></td>
+<td>درَفت</td>
+<td>PR ناتمام — هنوز ریویو نخواه</td>
+<td>«It's a draft PR, still WIP.»</td>
+</tr>
+<tr>
+<td><strong>open a PR</strong></td>
+<td>—</td>
+<td>باز کردن PR</td>
+<td>«I'll open a PR today.»</td>
+</tr>
+<tr>
+<td><strong>review</strong></td>
+<td>ری-ویو</td>
+<td>بازبینی</td>
+<td>«PR needs review.»</td>
+</tr>
+<tr>
+<td><strong>approve</strong></td>
+<td>اِپ-روو</td>
+<td>تأیید</td>
+<td>«It's approved — merge it.»</td>
+</tr>
+<tr>
+<td><strong>request changes</strong></td>
+<td>ری-کوِست چِینجس</td>
+<td>درخواست اصلاح قبل merge</td>
+<td>«He requested changes.»</td>
+</tr>
+<tr>
+<td><strong>address feedback</strong></td>
+<td>اَدرس فی-دبک</td>
+<td>رسیدگی به کامنت‌های ریویو</td>
+<td>«I addressed all the feedback.»</td>
+</tr>
+<tr>
+<td><strong>merge</strong></td>
+<td>مرج</td>
+<td>ادغام به شاخه اصلی</td>
+<td>«Merged and deployed.»</td>
+</tr>
+<tr>
+<td><strong>squash</strong></td>
+<td>اسکواش</td>
+<td>له‌کردن کامیت‌ها به یک کامیت</td>
+<td>«Squash and merge, please.»</td>
+</tr>
+<tr>
+<td><strong>rebase</strong></td>
+<td>ری-بِیس</td>
+<td>بازپایه‌گذاری روی شاخه جدید</td>
+<td>«Rebase on main first.»</td>
+</tr>
+<tr>
+<td><strong>conflict</strong></td>
+<td>کان-فلیکت</td>
+<td>تعارض ادغام</td>
+<td>«Fix the conflicts and re-request review.»</td>
+</tr>
+<tr>
+<td><strong>re-request review</strong></td>
+<td>—</td>
+<td>دوباره درخواست ریویو بعد اصلاح</td>
+<td>«Re-requested review after fixes.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۴.۲ — ادبیات کامنت‌های ریویو (هر کامنت یک وزن دارد ⭐)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>وزن</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LGTM</strong> (Looks Good To Me)</td>
+<td>از نظر من خوبه — تأیید</td>
+<td>تأیید نهایی</td>
+</tr>
+<tr>
+<td><strong>nit / nitpick</strong></td>
+<td>نیت‌پیک — ایراد جزئی (سلیقه‌ای)</td>
+<td>غیرالزامی</td>
+</tr>
+<tr>
+<td><strong>blocking</strong></td>
+<td>مانع — باید قبل merge اصلاح شود</td>
+<td>الزامی</td>
+</tr>
+<tr>
+<td><strong>non-blocking</strong></td>
+<td>غیرمانع — بعداً هم می‌شود</td>
+<td>پیشنهاد</td>
+</tr>
+<tr>
+<td><strong>suggestion</strong></td>
+<td>پیشنهاد آماده اعمال (دکمه apply دارد)</td>
+<td>سریع</td>
+</tr>
+<tr>
+<td><strong>question</strong></td>
+<td>سوال — توضیح بده</td>
+<td>گفتگو</td>
+</tr>
+<tr>
+<td><strong>FYI</strong></td>
+<td>برای اطلاعت</td>
+<td>اطلاع</td>
+</tr>
+<tr>
+<td><strong>TODO</strong></td>
+<td>کار باقی‌مانده در کد</td>
+<td>یادآور</td>
+</tr>
+<tr>
+<td><strong>scope creep!</strong></td>
+<td>این خارج از دامنه PR است</td>
+<td>اخلاق ریویو</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 چطوری <strong>بخوانی</strong>‌شان (چیزی که فقط با تجربه فهمیده می‌شود):
+«nit:» یعنی اعصابم خرد نشده، فقط نظر سلیقه — نگران نشو.
+«Blocking:» یعنی merge نکن تا اصلاح شه.
+بدون پیشوند ولی لحن سوال = گفتگو؛ با «please» = مودبانه الزامی.</p>
+</blockquote>
+<h2>۴.۳ — چطوری <strong>بنویسی</strong> (نه فقط بخوانی) — توضیحات PR</h2>
+<p>قالب توضیحات PR (همان که در دوره گیت دیدی، با اصطلاحات کامل‌شده):</p>
+<div class="codehilite"><pre><span></span><code>## What
+Adds password reset flow (emails + token validation).
+
+## Why
+Closes #231 — users can't recover accounts.
+
+## How
+- New endpoint /auth/reset (rate-limited)
+- Reuses the email template service
+
+## Testing
+- Unit tests for token expiry ✅
+- Manual test on staging ✅
+
+## Risk
+Touches auth middleware — @sara please double-check.
+</code></pre></div>
+
+<p>اصطلاح‌های این قالب: <code>closes #231</code> (تیکِت خودکار بسته می‌شود)، <code>rate-limited</code> (محدود به تعداد درخواست)، <code>on staging</code> (روی محیط آزمایشی — فصل ۹).</p>
+<h2>۴.۴ — ریویو <strong>دادن</strong> با ادبیات درست</h2>
+<div class="codehilite"><pre><span></span><code>✅ سخت روی کد، مهربان با آدم:
+"Nice use of a lookup table here! 🎉"
+"nit: `usr` → `user` for readability? (non-blocking)"
+"Question: what happens if the API returns an empty array?"
+"Blocking: this logs the raw token — please mask it."
+"FYI: we have a shared util for this — `formatDate()`."
+
+❌ هرگز:
+"This is wrong."              ← بدون توضیح
+"Why did you do it this way??" ← لحن بازخواست
+"LGTM" بدون خواندن             ← خیانت به تیم
+</code></pre></div>
+
+<p>و جواب دادن به ریویو:</p>
+<div class="codehilite"><pre><span></span><code>"Good catch — fixed in 8f3a2b1."      (نکته خوبی بود — اصلاح شد)
+"Fair point. I kept it as-is because... (توضیح) — happy to change if you prefer."
+"Done ✅" / "Addressed in the latest commit."
+"Not sure I follow — could you elaborate?"   (نفهمیدم — بیشتر توضیح می‌دی؟)
+</code></pre></div>
+
+<p>(<code>Good catch</code> = پرکاربردترین تشکر ریویو؛ <code>elaborate</code> = بازتر توضیح بده.)</p>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>چرخه: draft → open → review → (address feedback → re-request) → approve → squash merge</li>
+<li>وزن کامنت‌ها: LGTM تأیید / nit سلیقه / blocking الزامی / non-blocking پیشنهاد</li>
+<li>توضیحات PR: What/Why/How/Testing/Risk + <code>Closes #231</code></li>
+<li>دادن ریویو: تعریف کن، nit را برچسب بزن، blocking را شفاف؛ جواب دادن: Good catch / Addressed</li>
+</ul>
+<h2>📝 تمرین فصل ۴</h2>
+<ol>
+<li>درک: کامنت «nit: use early return here (non-blocking)» یعنی چه؟ باید قبل merge اصلاحش کنی؟</li>
+<li>حالت‌سازی: ریویوچی گفته «Blocking: no error handling on the fetch». جواب حرفه‌ای + کار بعدی‌ات را بنویس.</li>
+<li>ترجمه مفهومی جمله لیدت: «Squash it and I'll approve — but address the nits first.»</li>
+<li>کدام‌یک blocking است؟ (الف) variable name کوتاه (ب) API key هاردکد شده (ج) کامنت بدون نقطه</li>
+<li>یک PR واقعی از پروژه‌ات باز کن و توضیحاتش را با قالب فصل ۴ بنویس (What/Why/How/Testing/Risk).</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«اینجا return زودهنگام استفاده کن (ایراد جزئی، غیرالزامی)» — نه، قبل merge لازم نیست؛ ولی چون ارزان است معمولاً همان‌جا اعمالش می‌کنیم و Resolve می‌زنیم.</li>
+<li>«Good catch! Added try/catch with a user-facing error message and a retry — addressed in commit a1b2c3d. Ready for re-review.» (و در PR، دوباره Re-request review.)</li>
+<li>«کامیت‌ها را له کن (squash merge) تا approve کنم — ولی اول نیت‌ها (ایرادهای جزئی) را اصلاح کن.»</li>
+<li>فقط (ب) blocking است — راز لو رفته = امنیت. (الف) nit، (ج) بی‌اهمیت.</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> ادبیات Git — rebase، cherry-pick، upstream و بقیه.</p></section><section class="chapter" id="ch05"><h1>فصل ۵ — Git و ورژن کنترل: ادبیات دستورات و مکالمات</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> همکارت می‌گوید «I rebased on main, force-pushed, now your branch has conflicts — cherry-pick the hotfix first.» از دوره Git دستورات را بلدی؛ الان <strong>ادبیات مکالمه‌ای</strong> را می‌گیری.</p>
+</blockquote>
+<hr />
+<h2>۵.۱ — اصطلاحات شاخه و همگام‌سازی</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی در مکالمه</th>
+<th>جمله واقعی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>branch off</strong></td>
+<td>شاخه زدن از</td>
+<td>«Branch off main, please.»</td>
+</tr>
+<tr>
+<td><strong>cut a branch</strong></td>
+<td>(همان) شاخه ساختن</td>
+<td>«I cut a branch from develop.»</td>
+</tr>
+<tr>
+<td><strong>up to date</strong></td>
+<td>به‌روز با ریموت</td>
+<td>«My fork is up to date.»</td>
+</tr>
+<tr>
+<td><strong>out of sync</strong></td>
+<td>ناهماهنگ با ریموت</td>
+<td>«Your branch is out of sync with main.»</td>
+</tr>
+<tr>
+<td><strong>pull in changes</strong></td>
+<td>تغییرات را کشیدن</td>
+<td>«Pull in the latest changes first.»</td>
+</tr>
+<tr>
+<td><strong>rebase on top of</strong></td>
+<td>ری‌بیس روی</td>
+<td>«Rebase on top of main.»</td>
+</tr>
+<tr>
+<td><strong>fast-forward</strong></td>
+<td>ادغام خطی بدون کامیت merge</td>
+<td>«The merge will fast-forward.»</td>
+</tr>
+<tr>
+<td><strong>diverged</strong></td>
+<td>دو شاخه از هم جدا افتاده‌اند</td>
+<td>«Our branches have diverged — merge or rebase?»</td>
+</tr>
+<tr>
+<td><strong>stale</strong></td>
+<td>قدیمی/متروک‌شده</td>
+<td>«This PR is stale — close it?»</td>
+</tr>
+<tr>
+<td><strong>force push (with lease)</strong></td>
+<td>بازنویسی ریموت</td>
+<td>«Force-pushed my feature branch — careful.»</td>
+</tr>
+<tr>
+<td><strong>revert the merge</strong></td>
+<td>برگرداندن اثر merge با کامیت معکوس</td>
+<td>«We reverted the merge in prod.»</td>
+</tr>
+<tr>
+<td><strong>cherry-pick</strong></td>
+<td>برداشتن یک کامیت خاص</td>
+<td>«Cherry-pick that fix into release/2.1.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۵.۲ — دردسرها و اصطلاحات نجات</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله واقعی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>detached HEAD</strong></td>
+<td>سرگردانی روی کامیت (نه شاخه)</td>
+<td>«You're in detached HEAD — create a branch!»</td>
+</tr>
+<tr>
+<td><strong>lost commits</strong></td>
+<td>کامیت‌های «گم‌شده»</td>
+<td>«Don't panic — reflog finds lost commits.»</td>
+</tr>
+<tr>
+<td><strong>dirty working tree</strong></td>
+<td>تغییرات ذخیره‌نشده</td>
+<td>«Stash your dirty tree first.»</td>
+</tr>
+<tr>
+<td><strong>stash</strong></td>
+<td>انبار موقت تغییرات</td>
+<td>«Stash, pull, pop.»</td>
+</tr>
+<tr>
+<td><strong>hotfix</strong></td>
+<td>فیکس اضطراری روی پروداکشن</td>
+<td>«Cut a hotfix branch now.»</td>
+</tr>
+<tr>
+<td><strong>squash the WIP commits</strong></td>
+<td>تمیزکردن کامیت‌های زشت</td>
+<td>«Squash your WIP commits before the PR.»</td>
+</tr>
+<tr>
+<td><strong>conflict resolution</strong></td>
+<td>حل تعارض</td>
+<td>«The conflict resolution is trivial — take ours.»</td>
+</tr>
+<tr>
+<td><strong>take ours / take theirs</strong></td>
+<td>نسخه من / نسخه او را نگه دار</td>
+<td>«Resolve with ours for now.»</td>
+</tr>
+<tr>
+<td><strong>green build / red build</strong></td>
+<td>بیلد موفق / شکست‌خورده</td>
+<td>«Keep the build green.»</td>
+</tr>
+<tr>
+<td><strong>break the build</strong></td>
+<td>شکستن بیلد برای همه</td>
+<td>«Who broke the build?! 😅»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 مکالمه واقعی نجات (بخوان و ترجمه کن):</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>Dev:  Help! I did a hard reset and lost three commits.
+Lead: Don't panic — check the reflog. Nothing is truly lost for 90 days.
+Dev:  Found them. Now what?
+Lead: Create a branch from that commit and cherry-pick onto your PR.
+</code></pre></div>
+
+<p>ترجمه روان: «ریست سخت زدم و سه کامیت گم شد!» → «پنیک نکن — reflog را چک کن؛ ۹۰ روز هیچی واقعاً گم نمی‌شه» → «پیدا شد» → «از اون کامیت شاخه بساز و cherry-pick کن روی PR‌ت.»</p>
+<h2>۵.۳ — اصطلاحات README و contribution</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>contribution guidelines</strong></td>
+<td>قوانین مشارکت در پروژه</td>
+</tr>
+<tr>
+<td><strong>fork / upstream</strong></td>
+<td>کپی مخزن در اکانتت / مخزن اصلی</td>
+</tr>
+<tr>
+<td><strong>signed-off commit</strong></td>
+<td>کامیت امضاشده (DCO)</td>
+</tr>
+<tr>
+<td><strong>conventional commit</strong></td>
+<td>قالب <code>feat:/fix:/chore:</code></td>
+</tr>
+<tr>
+<td><strong>semantic versioning (semver)</strong></td>
+<td>MAJOR.MINOR.PATCH</td>
+</tr>
+<tr>
+<td><strong>changelog</strong></td>
+<td>تاریخچه تغییرات هر نسخه</td>
+</tr>
+<tr>
+<td><strong>release notes</strong></td>
+<td>توضیحات انتشار نسخه</td>
+</tr>
+<tr>
+<td><strong>maintainer</strong></td>
+<td>نگهدارنده پروژه (مسئول merge)</td>
+</tr>
+<tr>
+<td><strong>good first issue</strong></td>
+<td>ایشوی ساده برای تازه‌واردها ⭐ (برای contribution اول!)</td>
+</tr>
+</tbody>
+</table>
+<h2>۵.۴ — جمله‌های پرکاربرد گیت در چت تیم</h2>
+<div class="codehilite"><pre><span></span><code>"Pushed — please review."                     (پوش کردم — ریویو کن)
+"Rebased and force-pushed. 🙏"                 (ری‌بیس و فورس‌پوش کردم)
+"It'll conflict with #42 — merge that first." (با #42 تداخل داره — اول اون رو merge کن)
+"Squashing now, then it's green."              (الان اسکواش می‌کنم، بعد سبک)
+"Reverted the deploy commit — we're back to green."
+"Sorry, broke the build — fixing now."         (بیلد رو شکستم — دارم درست می‌کنم)
+"Can you re-request review? New commits up."   (دوباره درخواست ریویو کن — کامیت‌های جدید اومده)
+</code></pre></div>
+
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>شاخه‌ها: branch off، rebase on top of، diverged، out of sync، stale</li>
+<li>نجات: detached HEAD، reflog، dirty tree → stash، hotfix، take ours/theirs</li>
+<li>وضعیت بیلد: green/red — «Who broke the build?!» شوخی همیشگی</li>
+<li>مخزن‌بازی: fork/upstream، maintainer، good first issue، semver، changelog</li>
+<li>جمله‌های چت: Pushed — please review / Sorry, broke the build</li>
+</ul>
+<h2>📝 تمرین فصل ۵</h2>
+<ol>
+<li>درک: «The PR is stale and diverged — close it and cut a fresh branch off main.» یعنی چی؟</li>
+<li>حالت‌سازی: همکارت می‌گوید سه کامیت WIP دارد و می‌خواهد PR باز کند. با دو اصطلاح از این فصل راهنمایی‌اش کن (انگلیسی).</li>
+<li>کدام جمله گیت-صحیح‌تر است و چرا؟ (الف) «I pushed to main!» (ب) «I opened a PR targeting main.»</li>
+<li>ترجمه مفهومی: «Keep the main branch green at all costs — hotfix first, cleanup later.»</li>
+<li>(عملی) توی مخزن real خودت: یک PR با قالب What/Why/How/Testing باز کن و لینکش را ذخیره کن.</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«PR قدیمی و متروک شده و با main واگرا افتاده — ببندش و یک شاخه تازه از main بساز.»</li>
+<li>نمونه: «Rebase on main first, then squash your WIP commits into meaningful ones — reviewers shouldn't see 'wip', 'fix typo', 'wip2'.»</li>
+<li>(ب) — پوش مستقیم به main در تیم‌ها ممنوع/قفل است؛ PR یعنی ریویو و checks.</li>
+<li>«شاخه main را به هر قیمتی سبک نگه دار — اول hotfix، بعداً تمیزکاری.»</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> ارورها و لاگ‌ها — ادبیات stack trace و دیباگ.</p></section><section class="chapter" id="ch06"><h1>فصل ۶ — ارورها و لاگ‌ها: زبان دیباگ</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> ساعت ۱۱ شب، stack trace داری و تیکت‌ها می‌بارند. واژه‌های ارور و لاگ — هم برای فهمیدن پیام‌ها، هم برای <strong>گزارش‌دادن باگ به تیم/آپ‌استریم</strong>.</p>
+</blockquote>
+<hr />
+<h2>۶.۱ — آناتومی یک ارور</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>یعنی</th>
+<th>نمونه پیام</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>stack trace</strong></td>
+<td>اِستَک تریس</td>
+<td>زنجیره فراخوانی‌ها لحظه خطا</td>
+<td>«Paste the full stack trace.»</td>
+</tr>
+<tr>
+<td><strong>exception</strong></td>
+<td>اِکس-سِپ-شن</td>
+<td>استثنا (خطای قابل پرتاب)</td>
+<td>«Uncaught exception at line 42.»</td>
+</tr>
+<tr>
+<td><strong>throw / catch</strong></td>
+<td>ثرو / کچ</td>
+<td>پرتاب / گرفتن خطا</td>
+<td>«Throw a specific error, not a generic one.»</td>
+</tr>
+<tr>
+<td><strong>fatal error</strong></td>
+<td>فی-تِل</td>
+<td>خطای مرگبار (برنامه می‌میرد)</td>
+<td>«A fatal error killed the process.»</td>
+</tr>
+<tr>
+<td><strong>warning</strong></td>
+<td>وار-نینگ</td>
+<td>هشدار (کار می‌کند ولی...)</td>
+<td>«Fix the deprecation warning.»</td>
+</tr>
+<tr>
+<td><strong>deprecated</strong></td>
+<td>دِپ-ری-کِی-تِد</td>
+<td>منسوخ — جایگزین دارد</td>
+<td>«This API is deprecated since v3.»</td>
+</tr>
+<tr>
+<td><strong>timeout</strong></td>
+<td>تایم-آوت</td>
+<td>زمان انتظار تمام شد</td>
+<td>«Request timed out after 30s.»</td>
+</tr>
+<tr>
+<td><strong>memory leak</strong></td>
+<td>مِم-ری لیک</td>
+<td>نشت حافظه</td>
+<td>«The server leaks memory over hours.»</td>
+</tr>
+<tr>
+<td><strong>race condition</strong></td>
+<td>ریس کِن-دی-شن</td>
+<td>شرایط مسابقه (دو پروسه همزمان)</td>
+<td>«It's a classic race condition.»</td>
+</tr>
+<tr>
+<td><strong>deadlock</strong></td>
+<td>دِد-لاک</td>
+<td>بن‌بست دوطرفه</td>
+<td>«Two transactions deadlocked.»</td>
+</tr>
+<tr>
+<td><strong>segfault (segmentation fault)</strong></td>
+<td>سِگ-فالت</td>
+<td>دسترسی به حافظه ممنوعه (C/C++)</td>
+<td>«Random segfaults in prod.»</td>
+</tr>
+<tr>
+<td><strong>crash / freeze</strong></td>
+<td>کْرَش / فریز</td>
+<td>سقوط / هنگ</td>
+<td>«The tab crashes; the app freezes.»</td>
+</tr>
+<tr>
+<td><strong>silent failure</strong></td>
+<td>سای-لِنت فی-لیور</td>
+<td>شکست بی‌صدای اطلاع</td>
+<td>«Worst kind: silent failure.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۶.۲ — ادبیات گزارش باگ (bug report)</h2>
+<p>گزارش باگ حرفه‌ای همیشه این ۵ بخش را دارد:</p>
+<div class="codehilite"><pre><span></span><code>**Steps to reproduce (repro steps):**
+1. Open /checkout
+2. Apply coupon "SALE10"
+3. Click Pay
+
+**Expected behavior (انتظار):**
+Payment completes with 10% off.
+
+**Actual behavior (واقعیت):**
+500 error; user charged full price.
+
+**Environment (محیط):**
+Chrome 129, Windows 11, production
+</code></pre></div>
+
+<p>اصطلاح‌های کلیدی:</p>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>steps to reproduce</strong></td>
+<td>گام‌های بازتولید — بدون این، باگ تقریباً قابل حل نیست</td>
+</tr>
+<tr>
+<td><strong>expected / actual behavior</strong></td>
+<td>رفتار مورد انتظار / واقعی</td>
+</tr>
+<tr>
+<td><strong>environment / repro rate</strong></td>
+<td>محیط / نرخ بازتولید (همیشه؟ ۱ از ۵ بار؟)</td>
+</tr>
+<tr>
+<td><strong>intermittent</strong></td>
+<td>متناوب — گاه‌به‌گاه (سخت‌ترین باگ‌ها!)</td>
+</tr>
+<tr>
+<td><strong>regression</strong></td>
+<td>بازگشت باگ قدیمی (قبلاً فیکس بود، دوباره شکسته)</td>
+</tr>
+<tr>
+<td><strong>hotfix</strong></td>
+<td>فیکس اضطراری</td>
+</tr>
+<tr>
+<td><strong>mitigation</strong></td>
+<td>کاهش اثر (قبل از حل ریشه‌ای)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 جمله‌ای که هر دولوپری می‌ترسد بشنود: <strong>«This is a regression!»</strong> — یعنی چیزی که فیکس بود دوباره شکسته؛ اولویت یک.</p>
+</blockquote>
+<h2>۶.۳ — ادبیات لاگ و مانیتورینگ</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>log level</strong></td>
+<td>سطح لاگ: error/warn/info/debug</td>
+<td>«Log at debug level, not prod-info spam.»</td>
+</tr>
+<tr>
+<td><strong>tail the logs</strong></td>
+<td>دنبال کردن زنده لاگ</td>
+<td>«Tail the logs while I click.»</td>
+</tr>
+<tr>
+<td><strong>grep the logs</strong></td>
+<td>جستجو در لاگ‌ها</td>
+<td>«Grep for 'timeout' in yesterday's logs.»</td>
+</tr>
+<tr>
+<td><strong>verbose</strong></td>
+<td>پرحرف (لاگ مفصل)</td>
+<td>«Enable verbose logging temporarily.»</td>
+</tr>
+<tr>
+<td><strong>trace ID / correlation ID</strong></td>
+<td>شناسه ردیابی یک درخواست در همه سرویس‌ها</td>
+<td>«Find by trace ID: 8f3a.»</td>
+</tr>
+<tr>
+<td><strong>spike / dip</strong></td>
+<td>جهش / افت ناگهانی</td>
+<td>«Latency spike at 3 AM.»</td>
+</tr>
+<tr>
+<td><strong>flaky connection</strong></td>
+<td>اتصال بی‌ثبات</td>
+<td>«Network is flaky in the container.»</td>
+</tr>
+<tr>
+<td><strong>hot path</strong></td>
+<td>مسیر پرمصرف کد</td>
+<td>«Don't log JSON in the hot path.»</td>
+</tr>
+<tr>
+<td><strong>noise</strong></td>
+<td>لاگ‌های بی‌ارزش</td>
+<td>«Too much noise hides real errors.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۶.۴ — مکالمه دیباگ (چت واقعی)</h2>
+<div class="codehilite"><pre><span></span><code>Dev:  Prod is throwing 500s on /checkout.
+Lead: Stack trace? Paste it here.
+Dev:  "TypeError: cannot read properties of undefined (reading 'total')"
+Lead: That's the coupon object — the API returns null when no coupon.
+Dev:  Confirmed. Shipping a null check now. ETA 10 min.
+Lead: 🙏 Add a test so it's not a regression.
+</code></pre></div>
+
+<p>واژه‌های ریز این چت: <code>throwing 500s</code> = ارور ۵۰۰ می‌دهد؛ <code>cannot read properties of undefined</code> = معروف‌ترین پیام JS دنیا (null/undefined را خوانده‌ای!)؛ <code>Confirmed</code> = تأیید/تکرار خطا؛ <code>null check</code> = چک کردن قبل استفاده.</p>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>آناتومی: stack trace/exception/throw-catch/timeout/race condition/deadlock</li>
+<li>گزارش باگ: steps to reproduce + expected/actual + environment + repro rate</li>
+<li>«regression» = ترسناک‌ترین کلمه؛ «intermittent» = سخت‌ترین باگ</li>
+<li>لاگ: log level، tail، grep، trace ID، noise</li>
+<li>پیام‌های معروف: «cannot read properties of undefined»</li>
+</ul>
+<h2>📝 تمرین فصل ۶</h2>
+<ol>
+<li>این پیام را به زبان آدمیزاد توضیح بده: <code>ECONNREFUSED 127.0.0.1:5432</code></li>
+<li>باگ کاربر گزارش می‌دهد: «کار نمی‌کنه!» — سه چیز که در bug report ازش بخواهی (اصطلاحات انگلیسی + معنی).</li>
+<li>حالت‌سازی: باگی intermittent است (۱ از ۱۰ بار). به لیدت انگلیسی توضیح بده که چرا زمان‌بر است.</li>
+<li>ترجمه مفهومی: «Enable verbose logging on staging and grep for 'timeout' — let's find the root cause, not another workaround.»</li>
+<li>کدام یک regression است؟ (الف) باگ جدید کشف شد در کد قدیمی (ب) قابلیتی که هفته پیش فیکس شده بود دوباره خراب شده (ج) محدودیت شناخته‌شده API</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«اتصال رد شد (connection refused) روی آدرس لوکال پورت ۵۴۳۲» — یعنی هیچ پروسه‌ای روی آن پورت گوش نمی‌دهد: دیتابیس خاموش است یا پورت/آدرس غلط است.</li>
+<li>steps to reproduce (گام‌های بازتولید)، expected vs actual behavior (انتظار در برابر واقعیت)، environment/repro rate (محیط و نرخ وقوع).</li>
+<li>نمونه: «It's intermittent — reproduces maybe 1 in 10 times, which makes the root cause hard to pin down. I'll add verbose logging and a trace ID to catch it when it happens.» (متناوب است — شاید ۱ از ۱۰ بار؛ ریشه‌یابی سخت می‌شود؛ لاگ verbose و trace ID می‌گذارم تا موقع وقوع بگیرمش.)</li>
+<li>«روی staging لاگ verbose روشن کن و دنبال 'timeout' بگرد — برویم سراغ ریشه مشکل، نه یک workaround دیگر.»</li>
+<li>(ب) — بازگشت باگِ فیکس‌شده = regression.</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> فرانت و UI/UX — ادبیات طراحی و رابط کاربری.</p></section><section class="chapter" id="ch07"><h1>فصل ۷ — فرانت‌اند و UI/UX: زبان دیزاینرها و رابط کاربری</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> دیزاینر می‌گوید «Make it pixel-perfect, add a skeleton while loading, and the tooltip shouldn't be a modal!» — ادبیات رابط کاربری که در جلسات با دیزاینرها همیشه هست.</p>
+</blockquote>
+<hr />
+<h2>۷.۱ — طراحی و تحویل دیزاین</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>wireframe</strong></td>
+<td>وایر-فریم</td>
+<td>طرح خطی اولیه (سیاه‌قلم)</td>
+<td>«First wireframes are up.»</td>
+</tr>
+<tr>
+<td><strong>mockup</strong></td>
+<td>ماک-آپ</td>
+<td>طرح گرافیکی نهایی‌نما</td>
+<td>«The mockup differs from the wireframe.»</td>
+</tr>
+<tr>
+<td><strong>prototype</strong></td>
+<td>پرو-توتایپ</td>
+<td>نمونه تعاملی (Figma)</td>
+<td>«Try the clickable prototype.»</td>
+</tr>
+<tr>
+<td><strong>design system</strong></td>
+<td>دیزاین سیستِم</td>
+<td>کیت اجزای تکرارشونده (رنگ/فونت/کامپوننت)</td>
+<td>«Follow our design system.»</td>
+</tr>
+<tr>
+<td><strong>design token</strong></td>
+<td>دیزاین تُوکن</td>
+<td>متغیرهای طراحی (رنگ/فاصله)</td>
+<td>«Tokens live in CSS variables.»</td>
+</tr>
+<tr>
+<td><strong>pixel-perfect</strong></td>
+<td>پیکسل-پِرفِکت</td>
+<td>مو‌به‌مو مثل طرح</td>
+<td>«Make it pixel-perfect against the Figma.»</td>
+</tr>
+<tr>
+<td><strong>handoff</strong></td>
+<td>هند-آف</td>
+<td>تحویل طرح به دولوپر</td>
+<td>«Design handoff is Friday.»</td>
+</tr>
+<tr>
+<td><strong>spec / redlines</strong></td>
+<td>اسپک / رِدلاین‌ز</td>
+<td>مشخصات دقیق (فاصله/رنگ‌ها)</td>
+<td>«Check the redlines in Figma.»</td>
+</tr>
+<tr>
+<td><strong>favicon</strong></td>
+<td>فَوی-کُن</td>
+<td>آیکون تب مرورگر</td>
+<td>«Favicon is 404-ing.»</td>
+</tr>
+<tr>
+<td><strong>responsive</strong></td>
+<td>ری-اسپان-سیو</td>
+<td>سازگار با همه اندازه‌ها</td>
+<td>«Is it responsive on mobile?»</td>
+</tr>
+<tr>
+<td><strong>breakpoint</strong></td>
+<td>بریک-پوینت</td>
+<td>نقطه شکست چیدمان (مثلاً 768px)</td>
+<td>«The breakpoint hides the sidebar.»</td>
+</tr>
+<tr>
+<td><strong>viewport</strong></td>
+<td>ویو-پورت</td>
+<td>ناحیه دید مرورگر</td>
+<td>«It's wider than the viewport.»</td>
+</tr>
+<tr>
+<td><strong>above the fold</strong></td>
+<td>اَباو ذِ فولد</td>
+<td>بالای فولد — بدون اسکرول دیده می‌شود</td>
+<td>«CTA must be above the fold.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۷.۲ — اجزای رابط کاربری (UI elements)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>modal</strong></td>
+<td>پنجره روی‌صفحه (با قفل پس‌زمینه)</td>
+<td>«Don't use a modal for this — a toast is enough.»</td>
+</tr>
+<tr>
+<td><strong>toast</strong></td>
+<td>اعلان کوچک گذرا گوش صفحه</td>
+<td>«Show a success toast.»</td>
+</tr>
+<tr>
+<td><strong>tooltip</strong></td>
+<td>راهنمای شناور روی hover</td>
+<td>«Add a tooltip for the icon.»</td>
+</tr>
+<tr>
+<td><strong>dropdown / select</strong></td>
+<td>لیست بازشو</td>
+<td>«Country picker as a dropdown.»</td>
+</tr>
+<tr>
+<td><strong>checkbox / radio</strong></td>
+<td>تیک چندانتخابی / تک‌انتخابی</td>
+<td>«Switch to radio buttons.»</td>
+</tr>
+<tr>
+<td><strong>toggle / switch</strong></td>
+<td>کلید روشن/خاموش</td>
+<td>«Dark mode toggle in settings.»</td>
+</tr>
+<tr>
+<td><strong>accordion</strong></td>
+<td>آکاردئونی (باز/بسته شونده)</td>
+<td>«FAQ as an accordion.»</td>
+</tr>
+<tr>
+<td><strong>breadcrumb</strong></td>
+<td>بردکرامب — ردپای مسیر</td>
+<td>«Add breadcrumbs to the docs.»</td>
+</tr>
+<tr>
+<td><strong>skeleton</strong></td>
+<td>اسکلت لودینگ (خاکستری pulse)</td>
+<td>«Show a skeleton instead of a spinner.»</td>
+</tr>
+<tr>
+<td><strong>spinner / loader</strong></td>
+<td>چرخان لودینگ</td>
+<td>«Inline spinner on the button.»</td>
+</tr>
+<tr>
+<td><strong>CTA (Call To Action)</strong></td>
+<td>دکمه اقدام اصلی</td>
+<td>«The CTA is invisible — bigger and green!»</td>
+</tr>
+<tr>
+<td><strong>form validation</strong></td>
+<td>اعتبارسنجی فرم</td>
+<td>«Inline validation, not alerts.»</td>
+</tr>
+<tr>
+<td><strong>dark mode / light mode</strong></td>
+<td>حالت تاریک/روشن</td>
+<td>«Respect the system dark mode.»</td>
+</tr>
+<tr>
+<td><strong>empty state</strong></td>
+<td>حالت خالی (لیست بی‌آیتم)</td>
+<td>«Design the empty state — not just a blank page!»</td>
+</tr>
+<tr>
+<td><strong>onboarding</strong></td>
+<td>آشناسازی کاربر جدید</td>
+<td>«Onboarding wizard for new users.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۷.۳ — پرفورمنس و رفتار</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>lazy loading</strong></td>
+<td>بارگذاری تنبل (هنگام نیاز)</td>
+<td>«Lazy-load images below the fold.»</td>
+</tr>
+<tr>
+<td><strong>layout shift / CLS</strong></td>
+<td>پرش چیدمان</td>
+<td>«That banner causes layout shift — reserve space!»</td>
+</tr>
+<tr>
+<td><strong>hydration</strong></td>
+<td>آب‌رسانی (اتصال JS به HTML سرور)</td>
+<td>«Hydration takes 2s on mobile.»</td>
+</tr>
+<tr>
+<td><strong>flash of unstyled content (FOUC)</strong></td>
+<td>برقِ بدون‌استایل</td>
+<td>«We see a FOUC on slow networks.»</td>
+</tr>
+<tr>
+<td><strong>sticky header</strong></td>
+<td>هدر چسبان به اسکرول</td>
+<td>«Sticky header with backdrop blur.»</td>
+</tr>
+<tr>
+<td><strong>smooth scroll</strong></td>
+<td>اسکرول نرم</td>
+<td>«Smooth scroll to the section.»</td>
+</tr>
+<tr>
+<td><strong>debounce</strong></td>
+<td>تأخیردهی ورودی (سرچ)</td>
+<td>«Debounce the search input — 300ms.»</td>
+</tr>
+<tr>
+<td><strong>accessibility / a11y</strong></td>
+<td>دسترس‌پذیری (a-eleven-y!)</td>
+<td>«a11y: add aria labels.»</td>
+</tr>
+<tr>
+<td><strong>cross-browser</strong></td>
+<td>سازگار همه مرورگرها</td>
+<td>«Test cross-browser — Safari is sneaky.»</td>
+</tr>
+<tr>
+<td><strong>mobile-first</strong></td>
+<td>موبایل-محور طراحی</td>
+<td>«Design mobile-first, then desktop.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>a11y</strong> چنین خوانده می‌شود: «a-eleven-y» — چون بین a و y یازده حرف است. الگوی عددی مشابه: <strong>i18n</strong> (internationalization)، <strong>l10n</strong> (localization)، <strong>k8s</strong> (kubernetes) — دولوپرها حرف اول+تعداد حرف وسط+حرف آخر!</p>
+</blockquote>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>تحویل دیزاین: wireframe → mockup → prototype → handoff با spec/redlines</li>
+<li>شعار دیزاینر: pixel-perfect + responsive + a11y</li>
+<li>اجزا: modal ≠ toast ≠ tooltip؛ skeleton برای loading؛ empty state را فراموش نکن</li>
+<li>پرفورمنس: lazy loading، layout shift، debounce، mobile-first</li>
+<li>الگوی عددی: a11y / i18n / k8s</li>
+</ul>
+<h2>📝 تمرین فصل ۷</h2>
+<ol>
+<li>دیزاینر می‌گوید: «The CTA is below the fold on mobile and the hero image causes layout shift.» دو مشکل و علاج را با اصطلاحات فصل توضیح بده.</li>
+<li>فرق modal، toast و tooltip؟ برای پیام «ذخیره شد ✅» کدام؟ برای «خطای فرم زیر فیلد» کدام؟</li>
+<li>tلفظ/خوانش: a11y، i18n، FOUC، CTA</li>
+<li>حالت‌سازی: دیزاینر صفحه لودینگ خالی گذاشته — با ۲ اصطلاح (skeleton، empty state) بازخورد بده.</li>
+<li>(عملی) در پروژه‌ات یک skeleton برای یکی از لیست‌ها اضافه کن و debounce سرچ را چک کن.</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>(۱) CTA زیر فولد است → CTA را به above the fold ببر یا کلید میانبر بده؛ (۲) عکس hero باعث layout shift می‌شود → width/height (یا aspect-ratio) رزرو کن با next/image و priority.</li>
+<li>modal = پنجره مسلط با قفل صفحه؛ toast = اعلان گذرا گوش؛ tooltip = راهنمای hover. «ذخیره شد» → toast؛ «خطای زیر فیلد» → inline validation (هیچ‌کدام از آن دو!).</li>
+<li>a11y = «a-eleven-y»؛ i18n = «i-eighteen-n»؛ FOUC = حرف‌به‌حرف «فاک» یا بگو flash of unstyled content؛ CTA = حرف‌به‌حرف «سی-تی-اِی».</li>
+<li>نمونه: «Instead of a blank loading screen, can we add a skeleton? And the list needs a designed empty state for first-time users — right now it's just an empty page.»</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> بک‌اند و API و دیتابیس.</p></section><section class="chapter" id="ch08"><h1>فصل ۸ — بک‌اند، API و دیتابیس: زبان سمت سرور</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> جلسه با بک‌اندکار: «Expose a REST endpoint for orders, paginate with cursor, and make sure the payload is small — we're hitting rate limits.» ادبیات سمت سرور برای فرانت‌کارها.</p>
+</blockquote>
+<hr />
+<h2>۸.۱ — API و ارتباط</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>تلفظ</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>endpoint</strong></td>
+<td>اِند-پوینت</td>
+<td>آدرس قابل فراخوانی API</td>
+<td>«Hit the /orders endpoint.»</td>
+</tr>
+<tr>
+<td><strong>request / response</strong></td>
+<td>ری-کوِست / ری-اسپانس</td>
+<td>درخواست / پاسخ</td>
+<td>«The request returns 200.»</td>
+</tr>
+<tr>
+<td><strong>payload</strong></td>
+<td>پِی-لود</td>
+<td>بدنه داده‌ی درخواست/پاسخ</td>
+<td>«Keep the payload small.»</td>
+</tr>
+<tr>
+<td><strong>CRUD</strong></td>
+<td>کْراد</td>
+<td>Create، Read، Update، Delete</td>
+<td>«Expose full CRUD on products.»</td>
+</tr>
+<tr>
+<td><strong>status code</strong></td>
+<td>استِیتوس کُد</td>
+<td>کد پاسخ (200/404/500...)</td>
+<td>«It returns a 404 when missing.»</td>
+</tr>
+<tr>
+<td><strong>headers</strong></td>
+<td>هِدرز</td>
+<td>سرآیندها (auth، type...)</td>
+<td>«Pass the token in headers.»</td>
+</tr>
+<tr>
+<td><strong>authentication / authorization</strong></td>
+<td>اَو-ثِن-تی-کِیشن / اَو-ثُر-ای-زِیشن</td>
+<td>احراز هویت (کی هستی؟) / مجوز (اجازه داری؟)</td>
+<td>«AuthN vs AuthZ — different things!»</td>
+</tr>
+<tr>
+<td><strong>token / session</strong></td>
+<td>تُو-کِن / سِش-ن</td>
+<td>شناسه دسترسی / نشست کاربر</td>
+<td>«Token expired — refresh it.»</td>
+</tr>
+<tr>
+<td><strong>rate limit</strong></td>
+<td>رِیت لی-میت</td>
+<td>سقف تعداد درخواست</td>
+<td>«We hit the rate limit — 429s everywhere.»</td>
+</tr>
+<tr>
+<td><strong>throttle</strong></td>
+<td>ثرو-تِل</td>
+<td>کند کردن عمدی درخواست‌ها</td>
+<td>«Throttle the endpoint to 10 req/min.»</td>
+</tr>
+<tr>
+<td><strong>webhook</strong></td>
+<td>وب-هوک</td>
+<td>URL که سرویس دیگر به آن خبر می‌دهد</td>
+<td>«The payment gateway calls our webhook.»</td>
+</tr>
+<tr>
+<td><strong>polling</strong></td>
+<td>پول-ینگ</td>
+<td>مدام پرسیدن «آماده شدی؟»</td>
+<td>«Polling every 5s — prefer webhooks.»</td>
+</tr>
+<tr>
+<td><strong>idempotent</strong></td>
+<td>آی-دِم-پُو-تِنت</td>
+<td>تکرارش بی‌ضرر است</td>
+<td>«Make the webhook handler idempotent!»</td>
+</tr>
+<tr>
+<td><strong>backward compatible</strong></td>
+<td>بَک-وِرد کُم-پَت-ابل</td>
+<td>سازگار با نسخه‌های قبلی</td>
+<td>«Keep it backward compatible.»</td>
+</tr>
+<tr>
+<td><strong>deprecate / sunset</strong></td>
+<td>دِپ-ری-کِیت / سان-سِت</td>
+<td>منسوخ‌کردن / تعطیلی تدریجی</td>
+<td>«We're sunsetting v1 in Q3.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۸.۲ — دیتابیس و داده</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>schema</strong></td>
+<td>اسکِیما</td>
+<td>ساختار جداول/مدل‌ها</td>
+</tr>
+<tr>
+<td><strong>migration</strong></td>
+<td>مای-گری-شن</td>
+<td>تغییر نسخه‌ای ساختار دیتابیس</td>
+</tr>
+<tr>
+<td><strong>seed</strong></td>
+<td>سید</td>
+<td>داده اولیه</td>
+</tr>
+<tr>
+<td><strong>query / N+1 problem</strong></td>
+<td>کْوِری</td>
+<td>پرس‌وجو / مشکل پرس‌وجوهای زنجیره‌ای</td>
+</tr>
+<tr>
+<td><strong>index</strong></td>
+<td>ایندکس</td>
+<td>نمایه جستجوی سریع</td>
+</tr>
+<tr>
+<td><strong>normalize / denormalize</strong></td>
+<td>نُر-مَل-ایز</td>
+<td>نرمال‌سازی / عمدی تکرار برای سرعت</td>
+</tr>
+<tr>
+<td><strong>transaction</strong></td>
+<td>ترَن-زَک-شن</td>
+<td>بسته همه‌یا‌هیچ</td>
+</tr>
+<tr>
+<td><strong>constraint</strong></td>
+<td>کان-ستْرِینت</td>
+<td>قید داده (unique/not null)</td>
+</tr>
+<tr>
+<td><strong>lookup table</strong></td>
+<td>لاک-آپ تیبل</td>
+<td>جدول مرجع (کد→عنوان)</td>
+</tr>
+<tr>
+<td><strong>backup / restore</strong></td>
+<td>بَک-آپ / ری-استور</td>
+<td>پشتیبان / بازگردانی</td>
+</tr>
+<tr>
+<td><strong>read replica</strong></td>
+<td>رید رِپ-لی-کا</td>
+<td>کپی فقط‌خواندنی دیتابیس</td>
+</tr>
+</tbody>
+</table>
+<h2>۸.۳ — الگوهای رایج بک‌اند</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>pagination (offset / cursor)</strong></td>
+<td>صفحه‌بندی</td>
+<td>«Cursor pagination for the feed.»</td>
+</tr>
+<tr>
+<td><strong>filtering / sorting</strong></td>
+<td>فیلتر / مرتب‌سازی</td>
+<td>«Support filtering by status.»</td>
+</tr>
+<tr>
+<td><strong>soft delete</strong></td>
+<td>حذف منطقی (deletedAt)</td>
+<td>«Soft delete — keep the data.»</td>
+</tr>
+<tr>
+<td><strong>audit log</strong></td>
+<td>لاگ ممیزی (چه کسی چه کرد)</td>
+<td>«Every change needs an audit log.»</td>
+</tr>
+<tr>
+<td><strong>idempotency key</strong></td>
+<td>کلید ضدتکرار</td>
+<td>«Send an idempotency key with payments!»</td>
+</tr>
+<tr>
+<td><strong>retry with backoff</strong></td>
+<td>تلاش مجدد با فاصله فزاینده</td>
+<td>«Retry with exponential backoff.»</td>
+</tr>
+<tr>
+<td><strong>queue / job</strong></td>
+<td>صف / کار پس‌زمینه</td>
+<td>«Emails go to a queue.»</td>
+</tr>
+<tr>
+<td><strong>cron / scheduled job</strong></td>
+<td>کار زمان‌بندی‌شده</td>
+<td>«A cron cleans expired tokens.»</td>
+</tr>
+<tr>
+<td><strong>environment variable (env)</strong></td>
+<td>متغیر محیطی</td>
+<td>«Secrets live in env vars.»</td>
+</tr>
+<tr>
+<td><strong>health check</strong></td>
+<td>بررسی سلامت سرویس</td>
+<td>«Add a /health endpoint.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 دو جمله‌ای که در جلسات بک‌اند همیشه می‌شنوی:
+«<strong>It's eventual consistency</strong>» — یعنی «الان هنوز همه‌جا یکسان نیست؛ چند لحظه صبر کن» (مثل کش‌ها و صف‌ها).
+«<strong>Make it idempotent</strong>» — یعنی «طوری بساز که اگر دوباره اجرا شد، خراب نشود» (وب‌هوک‌ها دوباره می‌آیند!).</p>
+</blockquote>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>API: endpoint/payload/CRUD/status code؛ AuthN ≠ AuthZ</li>
+<li>محدودیت‌ها: rate limit (429)، throttle؛ webhook نیازمند handler ای <strong>idempotent</strong></li>
+<li>دیتابیس: schema/migration/index/transaction/constraint؛ read replica</li>
+<li>الگوها: cursor pagination، soft delete، audit log، retry with backoff، queue</li>
+<li>عبارت‌های طلایی: eventual consistency / make it idempotent</li>
+</ul>
+<h2>📝 تمرین فصل ۸</h2>
+<ol>
+<li>تفاوت authentication و authorization در یک مثال؟</li>
+<li>درک: «The webhook isn't idempotent, so duplicate events double-charge users.» چه خطرناکی و علاج؟</li>
+<li>فرانت‌کار هستی؛ بک‌اندکار می‌گوید «Use cursor pagination, offset breaks at scale.» یعنی چه و چرا؟</li>
+<li>ترجمه مفهومی: «Add a unique constraint on email, seed a lookup table for statuses, and wrap the transfer in a transaction.»</li>
+<li>کدام‌یک idempotent است؟ (الف) POST /orders با ساخت سفارش جدید هر بار (ب) PUT /orders/5 با داده کامل (ج) ارسال ایمیل خوش‌آمد</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>Authentication = «تو کی هستی؟» (لاگین/توکن)؛ Authorization = «اجازه این کار را داری؟» (ادمین بودن برای حذف). می‌توانی authN شده باشی ولی authZ نشده باشی.</li>
+<li>درخواست: دروازه پرداخت برای یک تراکنش، دوبار webhook می‌زند → چون handler idempotent نیست، دوبار شارژ! علاج: idempotency key (ذخیره پردازش‌شده‌ها و رد تکراری‌ها).</li>
+<li>یعنی به جای skip/take صفحه‌بندی با offset (که در داده بزرگ کند و جابه‌جا می‌شود)، با cursor (موقعیت آخرین آیتم) ادامه بده — برای فیدها و داده حجیم پایدارتر است.</li>
+<li>«روی ایمیل قید یکتا بگذار، جدول مرجع وضعیت‌ها را با داده اولیه پر کن، و انتقال را داخل یک تراکنش بپیچ.»</li>
+<li>(ب) — PUT با داده کامل: تکرارش همان نتیجه را می‌دهد. (الف) هر بار سفارش جدید؛ (ج) ایمیل تکراری می‌فرستد (مگر با کلید ضدتکرار).</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> دواپس و production — staging، rollback، incident.</p></section><section class="chapter" id="ch09"><h1>فصل ۹ — دواپس و Production: زبان دنیای واقعی</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> «Prod is down, roll back, page the on-call, and write the postmortem.» وحشتناک به نظر می‌رسد؟ نه — فقط واژه‌ها را یاد بگیر. این فصل ادبیات «دنیای واقعی» است.</p>
+</blockquote>
+<hr />
+<h2>۹.۱ — محیط‌ها: dev تا prod</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>environment (env)</strong></td>
+<td>محیط اجرا</td>
+<td>«Works in all environments?»</td>
+</tr>
+<tr>
+<td><strong>local / dev</strong></td>
+<td>سیستم خود دولوپر / محیط توسعه مشترک</td>
+<td>«It's broken in dev already.»</td>
+</tr>
+<tr>
+<td><strong>staging / QA</strong></td>
+<td>محیط آزمایشی شبیه production</td>
+<td>«Test it on staging first.»</td>
+</tr>
+<tr>
+<td><strong>production (prod)</strong></td>
+<td>محیط واقعی کاربران</td>
+<td>«Don't test on prod! 😅»</td>
+</tr>
+<tr>
+<td><strong>pre-prod / canary</strong></td>
+<td>پیش از prod / نسخه آزمایشی روی درصدی از کاربران</td>
+<td>«Canary at 5% first.»</td>
+</tr>
+<tr>
+<td><strong>promotion</strong></td>
+<td>ارتقای نسخه از یک محیط به بعدی</td>
+<td>«Promote staging build to prod.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 «It works in dev» = شوخی/شکایت همیشگی: «روی سیستم من کار می‌کند!» — و جواب حرفه‌ای: «Then it's an environment config issue.»</p>
+</blockquote>
+<h2>۹.۲ — استقرار (deployment)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>deploy / release</strong></td>
+<td>استقرار / انتشار</td>
+<td>«Deploying to prod now.»</td>
+</tr>
+<tr>
+<td><strong>roll out / roll back</strong></td>
+<td>پیش‌بردن / برگرداندن نسخه</td>
+<td>«Roll out gradually; roll back fast.»</td>
+</tr>
+<tr>
+<td><strong>rollback</strong></td>
+<td>بازگشت به نسخه قبلی</td>
+<td>«Rollback took 2 minutes, pain gone.»</td>
+</tr>
+<tr>
+<td><strong>downtime / uptime</strong></td>
+<td>زمان ازکارافتادگی / در دسترس بودن</td>
+<td>«Zero downtime deploys only.»</td>
+</tr>
+<tr>
+<td><strong>SLA (99.9% uptime)</strong></td>
+<td>توافق سطح سرویس</td>
+<td>«The SLA promises 99.9% uptime.»</td>
+</tr>
+<tr>
+<td><strong>blue-green / rolling deploy</strong></td>
+<td>استقرار دو محیط موازی / نوبتی</td>
+<td>«We do blue-green deploys.»</td>
+</tr>
+<tr>
+<td><strong>feature flag (toggle)</strong></td>
+<td>کلید خاموش/روشن قابلیت</td>
+<td>«Ship it behind a feature flag.»</td>
+</tr>
+<tr>
+<td><strong>infrastructure as code (IaC)</strong></td>
+<td>زیرساخت به صورت کد (Terraform)</td>
+<td>«All infra is IaC now.»</td>
+</tr>
+<tr>
+<td><strong>provision</strong></td>
+<td>آماده‌سازی زیرساخت</td>
+<td>«Provision a new staging server.»</td>
+</tr>
+<tr>
+<td><strong>scale up / scale out</strong></td>
+<td>قوی‌تر کردن / بیشتر کردن ماشین‌ها</td>
+<td>«Scale out to 5 instances.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۹.۳ — حادثه (incident): زبان اضطراری 🚨</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>incident / outage</strong></td>
+<td>حادثه / قطعی</td>
+<td>«Prod outage — all hands!»</td>
+</tr>
+<tr>
+<td><strong>on-call / pager</strong></td>
+<td>نوبت‌داری هشدار / پیجر</td>
+<td>«You're on-call this week.»</td>
+</tr>
+<tr>
+<td><strong>page someone</strong></td>
+<td>هشدار زدن (بیدار کردن!)</td>
+<td>«Page the on-call engineer.»</td>
+</tr>
+<tr>
+<td><strong>severity (sev1/sev2)</strong></td>
+<td>شدت حادثه</td>
+<td>«This is a sev1 — payments down.»</td>
+</tr>
+<tr>
+<td><strong>mitigation</strong></td>
+<td>کاهش اثر (قبل از حل ریشه)</td>
+<td>«Mitigation first: disable the feature.»</td>
+</tr>
+<tr>
+<td><strong>root cause analysis (RCA)</strong></td>
+<td>تحلیل ریشه‌ای</td>
+<td>«RCA shows a missing index.»</td>
+</tr>
+<tr>
+<td><strong>postmortem</strong></td>
+<td>گزارش پس از حادثه (بدون سرزنش!)</td>
+<td>«Postmortem doc due Friday.»</td>
+</tr>
+<tr>
+<td><strong>blameless</strong></td>
+<td>بی‌سرزنش (فرهنگ postmortem درست)</td>
+<td>«Blameless retro — focus on process.»</td>
+</tr>
+<tr>
+<td><strong>single point of failure (SPOF)</strong></td>
+<td>نقطه خرابی واحد</td>
+<td>«That queue is a SPOF.»</td>
+</tr>
+<tr>
+<td><strong>status page</strong></td>
+<td>صفحه وضعیت عمومی</td>
+<td>«Update the status page!»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 فرهنگ واقعی: در postmortem <strong>blameless</strong> یعنی «بگرد دنبال فرایند خراب، نه مقصر» — «Human error» علت نیست، علامت فرایند خراب است.</p>
+</blockquote>
+<h2>۹.۴ — CI/CD و پایش</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CI (Continuous Integration)</strong></td>
+<td>یکپارچه‌سازی مداوم (تست خودکار هر push)</td>
+<td>«CI is red — fix before merge.»</td>
+</tr>
+<tr>
+<td><strong>CD (Continuous Delivery/Deployment)</strong></td>
+<td>تحویل/استقرار مداوم</td>
+<td>«We do CD to staging on every merge.»</td>
+</tr>
+<tr>
+<td><strong>pipeline</strong></td>
+<td>خط لوله (build→test→deploy)</td>
+<td>«The pipeline takes 8 minutes.»</td>
+</tr>
+<tr>
+<td><strong>artifact</strong></td>
+<td>خروجی بیلد (فایل نهایی)</td>
+<td>«Download the build artifact.»</td>
+</tr>
+<tr>
+<td><strong>smoke test / e2e</strong></td>
+<td>تست دود / تست انتها-به-انتها</td>
+<td>«E2e suite runs nightly.»</td>
+</tr>
+<tr>
+<td><strong>flaky test</strong></td>
+<td>تست بی‌ثبات</td>
+<td>«A flaky test breaks CI randomly.»</td>
+</tr>
+<tr>
+<td><strong>metrics / alerting</strong></td>
+<td>متریک‌ها / هشداردهی</td>
+<td>«Alert on p95 latency.»</td>
+</tr>
+<tr>
+<td><strong>observability</strong></td>
+<td>مشاهده‌پذیری (لاگ+متریک+تریس)</td>
+<td>«We need better observability.»</td>
+</tr>
+<tr>
+<td><strong>p95 / latency</strong></td>
+<td>صدک ۹۵ تاخیر / تاخیر</td>
+<td>«p95 latency is 800ms — too slow.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>p95</strong> یعنی: ۹۵٪ درخواست‌ها سریع‌تر از این بودند — بهانه‌ای که میانگین (average) گول‌زننده است و صدک‌ها واقعیت را می‌گویند.</p>
+</blockquote>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>محیط‌ها: local → dev → staging/QA → prod (+canary)</li>
+<li>استقرار: deploy → feature flag → roll out/roll back؛ zero downtime با blue-green</li>
+<li>حادثه: sev1 → mitigation → RCA → blameless postmortem؛ SPOF را پیدا کن</li>
+<li>CI/CD: pipeline سبز؛ flaky test دشمن اعتماد؛ p95 &gt; average</li>
+</ul>
+<h2>📝 تمرین فصل ۹</h2>
+<ol>
+<li>فرق staging و prod و چرا روی prod تست نمی‌کنیم؟</li>
+<li>درک: «Sev1: checkout outage. Mitigation: feature flag off. Postmortem tomorrow — blameless.» سه جمله را ترجمه مفهومی کن.</li>
+<li>حالت‌سازی: دیپلویت را دیروز منتشر کردی، ارور ۵۰۰ هزارتایی امروز. با ۳ اصطلاح (rollback، feature flag، RCA) نقشه نجات بنویس (انگلیسی).</li>
+<li>چرا flaky test از باگ بدتر است؟ (به CI فکر کن)</li>
+<li>معنی: p95 latency = 2s، average = 200ms. چه چیزی را نشان می‌دهد که average پنهان می‌کند؟</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>staging = کپی شبیه‌سازی‌شده prod با داده تستی — جایی برای شکستن امن؛ prod = داده واقعی کاربران و پول واقعی. تست روی prod = ریسک مستقیم درآمد و اعتبار.</li>
+<li>«حادثه سطح ۱: چک‌اوت از کار افتاده. کاهش اثر: قابلیت را با feature flag خاموش کردیم. جلسه postmortem فردا — بی‌سرزنش.»</li>
+<li>نمونه: «Rolling back to the last known-good release now. Long-term fix goes behind a feature flag. I'll start the RCA doc — root cause looks like a missing env var.»</li>
+<li>چون اعتماد به CI را می‌کشد: بقیه‌ی تست‌ها را بی‌اعتبار نشان می‌دهد، تیم شروع به ignore کردن قرمزی‌ها می‌کند و باگ‌های واقعی از لای‌لای رد می‌شوند.</li>
+<li>۵٪ از درخواست‌ها بیش از ۲ ثانیه طول می‌کشند (شاید حتی ۱۰ ثانیه!) — میانگین ۲۰۰ms این دُم سنگین توزیع را پنهان می‌کند؛ تجربه‌ی بد کاربران در صدک‌های بالا است.</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> معماری و اصول کدنویسی — SOLID، monolith، anti-pattern.</p></section><section class="chapter" id="ch10"><h1>فصل ۱۰ — معماری و اصول کدنویسی: زبان آرشیتکت‌ها</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> جلسه معماری: «The monolith is fine for now, but let's at least decouple payments. Follow SOLID, avoid premature abstraction — KISS!» — واژه‌های طراحی نرم‌افزار که در code reviewهای معماری و مصاحبه‌های senior همه‌جاست.</p>
+</blockquote>
+<hr />
+<h2>۱۰.۱ — شکل سیستم: monolith تا microservices</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>monolith</strong></td>
+<td>مونولیت — همه‌چیز در یک اپ</td>
+<td>«It's a monolith, and that's fine for now.»</td>
+</tr>
+<tr>
+<td><strong>microservices</strong></td>
+<td>مایکروسرویس‌ها — سرویس‌های کوچک مستقل</td>
+<td>«Split payments into a microservice.»</td>
+</tr>
+<tr>
+<td><strong>decouple / coupling</strong></td>
+<td>جداسازی / وابستگی</td>
+<td>«Payments and auth are tightly coupled.»</td>
+</tr>
+<tr>
+<td><strong>tightly coupled</strong></td>
+<td>چسبیده به هم (تغییر یکی، می‌شکند دیگری)</td>
+<td>«This is tightly coupled to the DB schema.»</td>
+</tr>
+<tr>
+<td><strong>loosely coupled</strong></td>
+<td>جداشده (سالم)</td>
+<td>«Aim for loosely coupled modules.»</td>
+</tr>
+<tr>
+<td><strong>modular</strong></td>
+<td>ماجولار</td>
+<td>«Keep it modular — swap-in components.»</td>
+</tr>
+<tr>
+<td><strong>monorepo / polyrepo</strong></td>
+<td>چند پروژه در یک ریپو / هر پروژه یک ریپو</td>
+<td>«UI and API live in a monorepo.»</td>
+</tr>
+<tr>
+<td><strong>serverless</strong></td>
+<td>بدون سرور (توابع managed)</td>
+<td>«Auth goes serverless.»</td>
+</tr>
+<tr>
+<td><strong>event-driven</strong></td>
+<td>رویدادمحور (کوئری و event)</td>
+<td>«The flow is event-driven via the queue.»</td>
+</tr>
+<tr>
+<td><strong>distributed system</strong></td>
+<td>سیستم توزیع‌شده</td>
+<td>«Debugging distributed systems is hard.»</td>
+</tr>
+<tr>
+<td><strong>trade-off</strong></td>
+<td>ترید-آف — معاوضه (این را بگیر، آن را بده)</td>
+<td>«Every architecture is a trade-off.»</td>
+</tr>
+<tr>
+<td><strong>over-engineering</strong></td>
+<td>اِو-اِنجینیرینگ</td>
+<td>مهندسی بیش از حد</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 جمله‌ی کلاسیک آرشیتکت‌ها: «<strong>It depends.</strong>» — هر انتخاب معماری یک trade-off دارد؛ جواب مطلق وجود ندارد. و هشدار مشهور: <strong>premature optimization is the root of all evil</strong> (بهینه‌سازی زودهنگام ریشه همه شرارت‌ها — دونالد کنوث!).</p>
+</blockquote>
+<h2>۱۰.۲ — اصول کدنویسی (مخفف‌های مقدس)</h2>
+<table>
+<thead>
+<tr>
+<th>اصل</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SOLID</strong></td>
+<td>۵ اصل طراحی شیءگرا (Single responsibility, Open-closed, Liskov, Interface segregation, Dependency inversion)</td>
+<td>«This violates the Single responsibility principle.»</td>
+</tr>
+<tr>
+<td><strong>DRY</strong></td>
+<td>Don't Repeat Yourself — تکرار ممنوع</td>
+<td>«DRY it up — extract a helper.»</td>
+</tr>
+<tr>
+<td><strong>KISS</strong></td>
+<td>Keep It Simple, Stupid — ساده نگه دار</td>
+<td>«KISS! Why the generic factory for one case?»</td>
+</tr>
+<tr>
+<td><strong>YAGNI</strong></td>
+<td>You Ain't Gonna Need It — چیز الان‌لازم‌نشده نساز</td>
+<td>«YAGNI — we don't need 3 themes yet.»</td>
+</tr>
+<tr>
+<td><strong>Separation of Concerns (SoC)</strong></td>
+<td>جداسازی دغدغه‌ها</td>
+<td>«Keep UI, logic and data separate.»</td>
+</tr>
+<tr>
+<td><strong>Single source of truth</strong></td>
+<td>یک منبع حقیقت واحد</td>
+<td>«The config file is the single source of truth.»</td>
+</tr>
+<tr>
+<td><strong>readability &gt; cleverness</strong></td>
+<td>خوانایی بر هوشمندی</td>
+<td>«Don't be clever — be readable.»</td>
+</tr>
+<tr>
+<td><strong>clean code</strong></td>
+<td>کد تمیز (کتاب رابرت مارتین)</td>
+<td>«Small functions, meaningful names.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>SOLID باز شده (برای مصاحبه):</strong>
+<strong>S</strong>ingle responsibility = هر کلاس یک دلیل برای تغییر داشته باشد
+<strong>O</strong>pen-closed = برای افزودن قابلیت باز، برای تغییر بسته
+<strong>L</strong>iskov substitution = زیرنوع باید جای نوع پدر بنشیند
+<strong>I</strong>nterface segregation = interface های بزرگ پرچرب ممنوع
+<strong>D</strong>ependency inversion = به abstraction وابسته باش، نه پیاده‌سازی</p>
+</blockquote>
+<h2>۱۰.۳ — الگوها و ضدها</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>design pattern</strong></td>
+<td>الگوی طراحی (راه‌حل استاندارد مسئله شناخته)</td>
+<td>«A factory pattern fits here.»</td>
+</tr>
+<tr>
+<td><strong>anti-pattern</strong></td>
+<td>ضدالگو (راه‌حل رایجِ غلط)</td>
+<td>«God objects are an anti-pattern.»</td>
+</tr>
+<tr>
+<td><strong>singleton / factory / observer / strategy</strong></td>
+<td>الگوهای کلاسیک</td>
+<td>«Use an observer for the events.»</td>
+</tr>
+<tr>
+<td><strong>god object / god class</strong></td>
+<td>شیء خدا — همه‌چیز را می‌داند</td>
+<td>«UserService is a god class — 2000 lines!»</td>
+</tr>
+<tr>
+<td><strong>wrapper / adapter</strong></td>
+<td>پوشاننده / مبدل</td>
+<td>«Write a thin wrapper over the SDK.»</td>
+</tr>
+<tr>
+<td><strong>abstraction</strong></td>
+<td>انتزاع — پنهان‌کردن جزئیات</td>
+<td>«The abstraction is leaking!»</td>
+</tr>
+<tr>
+<td><strong>leaky abstraction</strong></td>
+<td>انتزاع سوراخ (جزئیاتش پیدا می‌شود)</td>
+<td>«Classic leaky abstraction — the ORM exposes SQL.»</td>
+</tr>
+<tr>
+<td><strong>boilerplate</strong></td>
+<td>بویلر-پلیت</td>
+<td>کد تکراری تشریفاتی</td>
+</tr>
+<tr>
+<td><strong>magic number / magic string</strong></td>
+<td>عدد/رشته جادویی بی‌نام</td>
+<td>«What is 86400? Extract a constant!»</td>
+</tr>
+<tr>
+<td><strong>code smell</strong></td>
+<td>بوِ کد (نشانه مشکل نه باگ)</td>
+<td>«Long parameter list is a code smell.»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>code smell</strong> = چیزی که «بو می‌دهد» — کار می‌کند ولی نشانه طراحی ناسالم است (تابع ۵۰۰ خطی، کامنت‌های توضیح-دهنده‌ی کد بی‌معنی، conditional های تودرتو). بو → smell → بگرد، معمولاً یک refactor واقعی زیرش پنهان است.</p>
+</blockquote>
+<h2>۱۰.۴ — فرایند تصمیم معماری</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>جمله</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>POC (Proof of Concept)</strong></td>
+<td>نمونه اثبات ایده</td>
+<td>«Build a POC first — one week.»</td>
+</tr>
+<tr>
+<td><strong>spike</strong></td>
+<td>بررسی سریع بدون تعهد (در اسکرام)</td>
+<td>«Time-boxed spike on WebSockets.»</td>
+</tr>
+<tr>
+<td><strong>technical spec / RFC</strong></td>
+<td>سند طراحی قبل از کد</td>
+<td>«Write an RFC and get feedback.»</td>
+</tr>
+<tr>
+<td><strong>benchmark</strong></td>
+<td>بنچمارک — اندازه‌گیری مقایسه‌ای</td>
+<td>«Benchmark before you choose the ORM.»</td>
+</tr>
+<tr>
+<td><strong>greenfield / brownfield</strong></td>
+<td>پروژه از صفر / پروژه موجود</td>
+<td>«Greenfield lets us pick the stack.»</td>
+</tr>
+<tr>
+<td><strong>migrate / migration path</strong></td>
+<td>مهاجرت / مسیر مهاجرت</td>
+<td>«What's the migration path for users?»</td>
+</tr>
+<tr>
+<td><strong>vendor lock-in</strong></td>
+<td>قفل‌شدن به یک فروشنده</td>
+<td>«Watch out for vendor lock-in.»</td>
+</tr>
+<tr>
+<td><strong>cutting corners</strong></td>
+<td>کوتاه‌روی (کیفیت را فدا کردن)</td>
+<td>«We're cutting corners on security.»</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>شکل: monolith تا microservices؛ decouple کن؛ همه‌چیز trade-off است؛ «It depends»</li>
+<li>مخفف‌ها: SOLID/DRY/KISS/YAGNI — بازشده‌شان را برای مصاحبه بلد باش</li>
+<li>الگو: design pattern ✅ / anti-pattern ❌؛ code smell یعنی «بو»؛ god object ممنوع</li>
+<li>فرایند: POC/spike → RFC → benchmark؛ greenfield/brownfield؛ vendor lock-in</li>
+</ul>
+<h2>📝 تمرین فصل ۱۰</h2>
+<ol>
+<li>درک: «We're over-engineering — a POC with no abstraction would answer the question in a day.» یعنی چی؟</li>
+<li>کدام اصل نقض شده؟ «تابعی که هم به دیتابیس وصل می‌شود، هم HTML می‌سازد، هم ایمیل می‌فرستد.»</li>
+<li>حالت‌سازی: lead می‌گوید «Rewrite everything in Rust.» تو با ۳ اصطلاح (trade-off، greenfield، premature) ریسک را بگو.</li>
+<li>YAGNI با یک مثال واقعی از پروژه‌هایت توضیح بده.</li>
+<li>کدام یک code smell است؟ (الف) تابع ۴۰۰ خطی با ۱۲ پارامتر (ب) تابع ۱۰ خطی با اسم معنادار (ج) کامنت توضیح الگوریتم پیچیده</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«داریم مهندسی‌بیش‌ازحد می‌کنیم — یک نمونه اثبات ایده بدون انتزاع، جواب سوال را در یک روز می‌دهد.»</li>
+<li>نقض Single responsibility (و Separation of Concerns) — سه دلیل تغییر متفاوت در یک تابع.</li>
+<li>نمونه: «That's a trade-off, not a free win — a rewrite is a greenfield project with real risk. We'd cut corners on features for months, and Rust expertise is a hiring constraint. Let's benchmark the bottleneck first — optimizing the wrong layer is premature.»</li>
+<li>مثال: ساخت سیستم theme switcher سه‌گانه وقتی هیچ مشتری ازش نخواسته (فقط «شاید بعداً»)؛ کد می‌میرد قبل از مصرف.</li>
+<li>(الف) — طول + پارامترهای زیاد = smell کلاسیک (Long method / Long parameter list).</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> چت و مکاتبه — مخفف‌ها و جملات مؤدبانه.</p></section><section class="chapter" id="ch11"><h1>فصل ۱۱ — چت و مکاتبه: مخفف‌ها و جملات مؤدبانه</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> چت تیمی: «FYI, the API is down — ETA 2h. BTW can you send the report ASAP? TL;DR: yes, I'm on it.» — مخفف‌ها + جمله‌های آماده برای مکاتبه حرفه‌ای.</p>
+</blockquote>
+<hr />
+<h2>۱۱.۱ — مخفف‌های چت (پرجونک‌ترین‌ها)</h2>
+<table>
+<thead>
+<tr>
+<th>مخفف</th>
+<th>باز‌شده</th>
+<th>یعنی</th>
+<th>مثال</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FYI</strong></td>
+<td>For Your Information</td>
+<td>برای اطلاعت</td>
+<td>«FYI, the build is broken.»</td>
+</tr>
+<tr>
+<td><strong>ASAP</strong></td>
+<td>As Soon As Possible</td>
+<td>هر چه زودتر</td>
+<td>«Need it ASAP.»</td>
+</tr>
+<tr>
+<td><strong>ETA</strong></td>
+<td>Estimated Time of Arrival</td>
+<td>زمان تقریبی اتمام</td>
+<td>«ETA on the fix?»</td>
+</tr>
+<tr>
+<td><strong>TL;DR</strong></td>
+<td>Too Long; Didn't Read</td>
+<td>خلاصه‌ی کوتاه (چکیده)</td>
+<td>«TL;DR: we ship Friday.»</td>
+</tr>
+<tr>
+<td><strong>BTW</strong></td>
+<td>By The Way</td>
+<td>راستی...</td>
+<td>«BTW the meeting moved to 3pm.»</td>
+</tr>
+<tr>
+<td><strong>IMO / IMHO</strong></td>
+<td>In My (Humble) Opinion</td>
+<td>به نظر من</td>
+<td>«IMO we should wait.»</td>
+</tr>
+<tr>
+<td><strong>EOD</strong></td>
+<td>End Of Day</td>
+<td>آخر روز</td>
+<td>«Done by EOD.»</td>
+</tr>
+<tr>
+<td><strong>EOY / Q1</strong></td>
+<td>End Of Year / سه‌ماهه اول</td>
+<td>پایان سال / فصل اول</td>
+<td>«EOY targets.»</td>
+</tr>
+<tr>
+<td><strong>POC</strong></td>
+<td>Proof of Concept</td>
+<td>نمونه اثبات ایده</td>
+<td>«Just a POC, don't judge the code!»</td>
+</tr>
+<tr>
+<td><strong>TBD</strong></td>
+<td>To Be Determined</td>
+<td>هنوز مشخص نشده</td>
+<td>«The date is TBD.»</td>
+</tr>
+<tr>
+<td><strong>N/A</strong></td>
+<td>Not Applicable</td>
+<td>اجرا ندارد / بی‌ربط</td>
+<td>«Legacy field: N/A.»</td>
+</tr>
+<tr>
+<td><strong>PS</strong></td>
+<td>Post Script</td>
+<td>پ‌ن — یادداشت آخر</td>
+<td>«PS: bring laptops tomorrow.»</td>
+</tr>
+<tr>
+<td><strong>AKA</strong></td>
+<td>Also Known As</td>
+<td>معروف به</td>
+<td>«Redis, AKA our cache.»</td>
+</tr>
+<tr>
+<td><strong>CC</strong></td>
+<td>Carbon Copy</td>
+<td>رونوشت (در ایمیل)</td>
+<td>«CC the lead, please.»</td>
+</tr>
+<tr>
+<td><strong>RSVP</strong></td>
+<td>Répondez s'il vous plaît (فرانسه!)</td>
+<td>لطفاً پاسخ دهید</td>
+<td>«RSVP by Friday.»</td>
+</tr>
+<tr>
+<td><strong>TIA</strong></td>
+<td>Thanks In Advance</td>
+<td>پیشاپیش ممنون</td>
+<td>«TIA! 🙏»</td>
+</tr>
+<tr>
+<td><strong>e.g. / i.e.</strong></td>
+<td>exempli gratia / id est</td>
+<td>مثلاً / یعنی</td>
+<td>«e.g. React, Vue» / «i.e. exactly this flow»</td>
+</tr>
+<tr>
+<td><strong>vs</strong></td>
+<td>versus</td>
+<td>در برابر</td>
+<td>«REST vs GraphQL»</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ ریزه‌کاری که فرق می‌گذارد: <strong>e.g. = مثلاً</strong> (نمونه‌ها، لیست ناقص) و <strong>i.e. = یعنی</strong> (توضیح همان چیز). «popular frameworks, e.g. React» ✓ / «the framework we use, i.e. Next.js» ✓</p>
+</blockquote>
+<h2>۱۱.۲ — جمله‌های آماده (کپی-پیست در چت واقعی!)</h2>
+<h3>تأیید و شروع</h3>
+<div class="codehilite"><pre><span></span><code>Sounds good 👍                     ← موافقم
+I'm on it.                         ← درگیرشم / انجامش می‌دم
+Got it, thanks!                    ← گرفتم، ممنون
+Will do.                           ← انجامش می‌دم
+On my way.                         ← راه افتادم
+</code></pre></div>
+
+<h3>اطلاع‌رسانی وضعیت</h3>
+<div class="codehilite"><pre><span></span><code>Quick update: the fix is live.     ← به‌روزرسانی سریع: فیکس بالا اومد
+Just a heads-up: deploy at 6pm.    ← خبر مقدماتی: دِپلوی ساعت ۶
+Still working on it — ETA 1h.      ← هنوز سرشم — ETA یک ساعت
+Blocked on design review.          ← روِی ریویو دیزاین قفل هستم
+PR is up for review.               ← PR برای ریویو آماده است
+</code></pre></div>
+
+<h3>درخواست (مؤدبانه و حرفه‌ای)</h3>
+<div class="codehilite"><pre><span></span><code>Could you take a look when you get a chance?    ← فرصت کردی نگاه کن؟
+Mind reviewing my PR?                            ← زحمت ریویو رو می‌کشی؟
+Can we sync for 10 minutes?                      ← ۱۰ دقیقه هم‌صحبت بشیم؟
+Could you elaborate on the requirements?         ← نیازمندی‌ها رو بازتر می‌گی؟
+Keep me posted.                                  ← منو در جریان بذار
+Let me know if anything's unclear.               ← اگه گنگ بود بگو
+</code></pre></div>
+
+<h3>عذرخواهی و پاسخ</h3>
+<div class="codehilite"><pre><span></span><code>Sorry for the delay — was blocked on X.          ← بابت تأخیر ببخشید
+My bad — fixed.                                  ← تقصیر من — درست شد
+No worries.                                      ← خیال راحت / مهم نیست
+Good catch!                                      ← نکته خوبی بود!
+Happy to help.                                   ← در خدمتم
+Sounds like a plan.                              ← پس قراره این‌جوری باشه
+</code></pre></div>
+
+<h2>۱۱.۳ — ادبیت ایمیل/مستند (کمی رسمی‌تر)</h2>
+<table>
+<thead>
+<tr>
+<th>عبارت</th>
+<th>یعنی</th>
+<th>کجا</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>As per our discussion</strong></td>
+<td>مطابق صحبت‌مان</td>
+<td>ارجاع به جلسه</td>
+</tr>
+<tr>
+<td><strong>Please find attached</strong></td>
+<td>ضمیمه را ملاحظه فرمایید</td>
+<td>ایمیل</td>
+</tr>
+<tr>
+<td><strong>Following up on...</strong></td>
+<td>پیگیریِ... (ایمیل پیگیری)</td>
+<td>«Following up on my last email.»</td>
+</tr>
+<tr>
+<td><strong>As discussed</strong></td>
+<td>همان‌طور که صحبت شد</td>
+<td>کوتاه‌شده بالا</td>
+</tr>
+<tr>
+<td><strong>For the record</strong></td>
+<td>برای ثبت در سوابق</td>
+<td>«For the record, I flagged this on May 2nd.»</td>
+</tr>
+<tr>
+<td><strong>To summarise / In summary</strong></td>
+<td>خلاصه اینکه</td>
+<td>انتهای مستند</td>
+</tr>
+<tr>
+<td><strong>Action items</strong></td>
+<td>کارهای خروجی</td>
+<td>پایان جلسه/ایمیل</td>
+</tr>
+<tr>
+<td><strong>Apologies for the confusion</strong></td>
+<td>عذرخواهی بابت سوءتفاهم</td>
+<td>پرکاربرد!</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>مخفف‌ها: FYI/ASAP/ETA/TL;DR/BTW/EOD/POC/TBD — و فرق e.g. (مثلاً) با i.e. (یعنی)</li>
+<li>چت: I'm on it / heads-up / PR is up / Blocked on X / Keep me posted</li>
+<li>حرفه‌ای‌ترین‌ها: Good catch! / Sorry for the delay — was blocked on X / Mind reviewing?</li>
+<li>ایمیل: Following up on... / As per our discussion / Apologies for the confusion</li>
+</ul>
+<h2>📝 تمرین فصل ۱۱</h2>
+<ol>
+<li>این پیام لیدت را کامل ترجمه کن: «FYI the client moved the demo to Monday. TL;DR: we need the dashboard by EOD tomorrow. BTW can you CC me on the deploy notes? TIA!»</li>
+<li>کدام مخفف جای درست است؟ «___ we're sunsetting v1 — the docs are ___ outdated.» (TBD / FYI / e.g. / i.e.)</li>
+<li>حالت‌سازی: به چت تیمی بنویس که دیروز مسدود بودی روی طراحی، امروز شروع می‌کنی، و از دیزاینر درخواست ریویو مودبانه کن — با حداقل ۴ عبارت این فصل.</li>
+<li>فرق «e.g.» و «i.e.» در این دو جمله؟ (الف) «JS frameworks, i.e. React and Vue» (ب) «JS frameworks, e.g. React and Vue»</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>«برای اطلاعت: مشتری دموی دوشنبه رو برد. خلاصه‌اش: داشبورد رو تا آخر فردا لازم داریم. راستی می‌شه توی یادداشت‌های دِپلوی من رو CC کنی؟ پیشاپیش ممنون!»</li>
+<li>«FYI we're sunsetting v1 — the docs are <strong>i.e.</strong> ✗ → درست: <strong>e.g.</strong> فقط اگر نمونه است؛ چون «docs outdated» توضیح همان موضوع است → i.e. درست‌تر: «FYI we're sunsetting v1, i.e. it stops working on Jan 1.» (اگر منظور نمونه باشد e.g.)</li>
+<li>نمونه: «Quick update: I was blocked on the design review yesterday — got the assets this morning, so I'm on it now. @Dana, mind taking a quick look at the header spec? Keep me posted if anything changes. 🙂»</li>
+<li>(الف) غلط — i.e. یعنی «همین‌ها هستند» ولی React و Vue نمونه‌اند نه همه؛ (ب) درست — «مثلاً React و Vue».</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل بعد:</strong> استخدام و مصاحبه — از job posting تا offer.</p></section><section class="chapter" id="ch12"><h1>فصل ۱۲ — استخدام و مصاحبه: از job posting تا offer</h1>
+<blockquote>
+<p>🎯 <strong>صحنه:</strong> آگهی شغلی انگلیسی می‌خوانی، recruiter بهت DM می‌دهد، مصاحبه رزرو می‌شود. ادبیات استخدام بین‌المللی — از JD تا onboarding.</p>
+</blockquote>
+<hr />
+<h2>۱۲.۱ — آگهی شغلی (Job Posting / JD)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>نکته</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>JD (Job Description)</strong></td>
+<td>شرح شغل</td>
+<td>اولین چیزی که می‌خوانی</td>
+</tr>
+<tr>
+<td><strong>full-time / part-time</strong></td>
+<td>تمام‌وقت / پاره‌وقت</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>remote / hybrid / on-site</strong></td>
+<td>دورکاری / ترکیبی / حضوری</td>
+<td>⭐ remote-first = شرکت دورکارمحور</td>
+</tr>
+<tr>
+<td><strong>contract / contractor</strong></td>
+<td>قراردادی / پیمانکار</td>
+<td>به جای full-time</td>
+</tr>
+<tr>
+<td><strong>years of experience (YoE)</strong></td>
+<td>سال سابقه</td>
+<td>«3+ years of YoE»</td>
+</tr>
+<tr>
+<td><strong>must-have / nice-to-have</strong></td>
+<td>الزامی / امتیازی</td>
+<td>«React is a must-have; Rust is nice-to-have.»</td>
+</tr>
+<tr>
+<td><strong>responsibilities</strong></td>
+<td>مسئولیت‌های شغل</td>
+<td>بخش «چه کار خواهی کرد»</td>
+</tr>
+<tr>
+<td><strong>benefits / perks</strong></td>
+<td>مزایا / امتیازات</td>
+<td>بیمه، آموزش، امکانات</td>
+</tr>
+<tr>
+<td><strong>equity / stock options</strong></td>
+<td>سهام شرکت</td>
+<td>در استارتاپ‌ها بخشی از حقوق</td>
+</tr>
+<tr>
+<td><strong>compensation (comp)</strong></td>
+<td>جبران خدمات (حقوق+بونوس+سهام)</td>
+<td>«Competitive comp» = مبهم می‌گویند!</td>
+</tr>
+<tr>
+<td><strong>competitive salary</strong></td>
+<td>حقوق رقابتی</td>
+<td>⚠️ معمولاً یعنی «نمی‌گوییم چقدر»</td>
+</tr>
+<tr>
+<td><strong>fast-paced environment</strong></td>
+<td>محیط پرشتاب</td>
+<td>یعنی «کار زیاد، تغییر زیاد» — بپرس!</td>
+</tr>
+<tr>
+<td><strong>wear many hats</strong></td>
+<td>چند نقش باهم</td>
+<td>استارتاپ‌ها</td>
+</tr>
+<tr>
+<td><strong>apply / applicant / candidate</strong></td>
+<td>درخواست دادن / متقاضی / کاندیدا</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 رمزگشایی آگهی‌ها: «<strong>fast-paced</strong>» = فرایند رسمی کم؛ «<strong>wear many hats</strong>» = بک‌اند هم می‌زنی گاهی؛ «<strong>rockstar/ninja developer</strong>» = دولوپر معمولی با ادبیات تبلیغاتی 😄 — و همیشه بخش must-have را با رزومه‌ات تطبیق بده، nice-to-have ها مذاکره‌پذیرند.</p>
+</blockquote>
+<h2>۱۲.۲ — سطوح و مسیر شغلی</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی تقریبی</th>
+<th>انتظار بازار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>junior</strong></td>
+<td>تازه‌کار</td>
+<td>زیر نظر کار می‌کند، task های مشخص</td>
+</tr>
+<tr>
+<td><strong>mid-level</strong></td>
+<td>میان‌رده</td>
+<td>مستقل روی feature ها</td>
+</tr>
+<tr>
+<td><strong>senior</strong></td>
+<td>ارشد</td>
+<td>طراحی + mentoring + مالکیت ماژول</td>
+</tr>
+<tr>
+<td><strong>lead / tech lead</strong></td>
+<td>لید فنی</td>
+<td>هدایت فنی تیم + کد</td>
+</tr>
+<tr>
+<td><strong>staff / principal</strong></td>
+<td>بالاتر از senior در شرکت‌های بزرگ</td>
+<td>اثر بین‌تیمی</td>
+</tr>
+<tr>
+<td><strong>EM (Engineering Manager)</strong></td>
+<td>مدیر مهندسی</td>
+<td>مدیریت آدم‌ها (نه فقط فن)</td>
+</tr>
+<tr>
+<td><strong>intern / trainee</strong></td>
+<td>کارآموز</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>mentor / mentee</strong></td>
+<td>منتور / منتورشونده</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 سوال مصاحبه‌ای رایج: «<strong>What's the difference between a senior and a junior?</strong>» — پاسخ قوی: junior مسئله را حل می‌کند؛ senior تصمیم می‌گیرد <em>چه مسئله‌ای</em> ارزش حل‌کردن دارد و بقیه را رشد می‌دهد. (سطح = استقلال و اثر، نه فقط دانش!)</p>
+</blockquote>
+<h2>۱۲.۳ — فرایند مصاحبه (hiring pipeline)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>نکته</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>recruiter / talent acquisition</strong></td>
+<td>جذب‌کننده / استخدام‌کار</td>
+<td>اولین تماس با او است</td>
+</tr>
+<tr>
+<td><strong>DM / reach out</strong></td>
+<td>پیام خصوصی / تماس گرفتن</td>
+<td>«A recruiter reached out on LinkedIn.»</td>
+</tr>
+<tr>
+<td><strong>screening (call)</strong></td>
+<td>مکالمه غربال اولیه (۳۰ دقیقه)</td>
+<td>درباره تجربه و انتظارات</td>
+</tr>
+<tr>
+<td><strong>take-home assignment</strong></td>
+<td>پروژه خانه</td>
+<td>چند ساعت کد بزن؛ ⚠️ از free work بپرهیز!</td>
+</tr>
+<tr>
+<td><strong>whiteboard interview</strong></td>
+<td>مصاحبه تخته‌ای (حل مساله بدون کامپایلر)</td>
+<td>الگوریتم‌ها را حرف‌بزن حل می‌کنی</td>
+</tr>
+<tr>
+<td><strong>live coding</strong></td>
+<td>کدنویسی زنده جلوی مصاحبه‌گر</td>
+<td>باهم pair می‌شوید</td>
+</tr>
+<tr>
+<td><strong>system design interview</strong></td>
+<td>مصاحبه طراحی سیستم</td>
+<td>«Design Instagram» — سناریوهای scale</td>
+</tr>
+<tr>
+<td><strong>behavioral interview</strong></td>
+<td>مصاحبه رفتاری (STAR!)</td>
+<td>«Tell me about a time when...»</td>
+</tr>
+<tr>
+<td><strong>STAR method</strong></td>
+<td>Situation, Task, Action, Result</td>
+<td>قالب جواب رفتاری ⭐</td>
+</tr>
+<tr>
+<td><strong>panel interview</strong></td>
+<td>مصاحبه با چند مصاحبه‌گر</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>hiring manager</strong></td>
+<td>مدیر استخدام (تصمیم نهایی فنی)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>culture fit / culture add</strong></td>
+<td>سازگار با فرهنگ تیم / افزودن به آن</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>feedback / follow-up</strong></td>
+<td>بازخورد / پیگیری</td>
+<td>«Send a follow-up email after the interview.»</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۲.۴ — بعد از مصاحبه: offer و شروع</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>یعنی</th>
+<th>نکته</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>offer (letter)</strong></td>
+<td>پیشنهاد استخدام کتبی</td>
+<td>حقوق/مزایا/تاریخ شروع</td>
+</tr>
+<tr>
+<td><strong>negotiate / counter-offer</strong></td>
+<td>مذاکره / پیشنهاد متقابل</td>
+<td>«Negotiate politely — it's expected!»</td>
+</tr>
+<tr>
+<td><strong>base salary / bonus</strong></td>
+<td>حقوق پایه / پاداش</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>notice period</strong></td>
+<td>دوره اطلاع قبلی (قبل ترک شرکت فعلی)</td>
+<td>معمولا ۱-۲ ماه</td>
+</tr>
+<tr>
+<td><strong>probation (period)</strong></td>
+<td>دوره آزمایشی</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>start date / onboarding</strong></td>
+<td>تاریخ شروع / فرایند ورود</td>
+<td>«Onboarding buddy» = دوست راهنمای روز اول</td>
+</tr>
+<tr>
+<td><strong>resign / resignation letter</strong></td>
+<td>استعفا دادن / نامه استعفا</td>
+<td>«Submit your resignation.»</td>
+</tr>
+<tr>
+<td><strong>last working day</strong></td>
+<td>آخرین روز کاری</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>exit interview</strong></td>
+<td>مصاحبه خروج</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>references</strong></td>
+<td>معرف‌ها (کسانی که ازت می‌گویند)</td>
+<td>«Provide 2 references.»</td>
+</tr>
+<tr>
+<td><strong>background check</strong></td>
+<td>بررسی سوابق</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 جمله‌های طلایی مصاحبه:
+«<strong>Could you tell me more about the team structure?</strong>» (سوال هوشمندانه — نشان می‌دهد مسیر را بلدی)
+«<strong>What does success look like in the first 3 months?</strong>» ⭐ (پرامتیازترین سوال!)
+مذاکره: «<strong>Based on my research and experience, I was expecting a range closer to X. Is there flexibility?</strong>»</p>
+</blockquote>
+<hr />
+<h2>✅ جمع‌بندی فصل</h2>
+<ul>
+<li>آگهی: JD، remote/hybrid، must-have vs nice-to-have، «competitive salary» را جدی نگیر</li>
+<li>سطوح: junior→mid→senior→lead؛ سطح = استقلال و اثر</li>
+<li>فرایند: screening → take-home/live coding → system design → behavioral (با STAR)</li>
+<li>بعدش: offer → negotiate → notice period → onboarding؛ سوال «success in 3 months?» را فراموش نکن</li>
+</ul>
+<h2>📝 تمرین فصل ۱۲</h2>
+<ol>
+<li>این آگهی را رمزگشایی کن: «Senior dev for a fast-paced startup. You'll wear many hats. Competitive salary + equity.» سه واقعیت پنهان را حدس بزن.</li>
+<li>تفاوت «culture fit» و «culture add»؟ کدام را در مصاحبه بگویی؟</li>
+<li>یک جواب behavioral با STAR بنویس: «Tell me about a time you fixed a production bug under pressure.» (حتی به فارسی ساختارش را بچین)</li>
+<li>فرق hiring manager و recruiter؟ سوال فنی به کدام نپرسید؟</li>
+<li>offer گرفتی اما حقوق پایین است؛ جمله مذاکره حرفه‌ای را بنویس.</li>
+</ol>
+<details open="open">
+<summary>جواب‌ها</summary>
+<ol>
+<li>حدس‌های معقول: فرایند رسمی کم و تغییر مکرر (fast-paced)؛ چند نقش باهم (wear many hats: شاید بک‌اند/دواپس هم)؛ حقوق پایه احتمالاً متوسط با وعده سهام (competitive+equity). سوال بپرس: نرخ turnover تیم؟</li>
+<li>culture fit = «مثل ما فکر می‌کند» (ریسک یکسان‌سازی)؛ culture add = «چیز جدیدی به تیم اضافه می‌کند». در مصاحبه بگو: «I think I'd be a culture add — I bring X experience the team doesn't have.»</li>
+<li>ساختار STAR (نمونه چینش): <strong>S</strong>ituation = پنج‌شنبه شب ارور ۵۰۰ در چک‌اوت؛ <strong>T</strong>ask = قبل از پیک خرید جمعه حل شود؛ <strong>A</strong>ction = trace ID زدم، root cause یک migration اعمال‌نشده، feature flag خاموش، hotfix دیپلوی شد؛ <strong>R</strong>esult = ۱۵ دقیقه تا رفع، postmortem نوشتم و migration gate اضافه شد که دیگر تکرار نشود.</li>
+<li>recruiter = فرایند استخدام و حقوق (اولین تماس)؛ hiring manager = سرپرست فنی آینده‌ات (تصمیم‌گیرنده). سوالات فنی عمیق را از hiring manager بپرس، نه recruiter.</li>
+<li>نمونه: «Thank you — I'm excited about the role! Based on my experience with X and the market range for this position, I was expecting something closer to Y. Is there flexibility on the base, or other parts of the package we could adjust?»</li>
+</ol>
+</details>
+<p>➡️ <strong>فصل آخر:</strong> چیت‌شیت جامع ۲۵۰+ اصطلاح + نقشه راه.</p></section><section class="chapter" id="ch13"><h1>فصل ۱۳ — چیت‌شیت جامع و نقشه راه</h1>
+<blockquote>
+<p>🎯 <strong>هدف:</strong> مرجع مرور سریع — چاپش کن، کنار مانیتورت بزن. هر فصل با ترتیب «صحنه».</p>
+</blockquote>
+<hr />
+<h2>۱۳.۱ — چرخه کدنویسی (فصل ۲)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>feature</td>
+<td>قابلیت</td>
+<td></td>
+<td>edge case</td>
+<td>حالت مرزی</td>
+</tr>
+<tr>
+<td>bug / fix</td>
+<td>باگ / رفع</td>
+<td></td>
+<td>happy path</td>
+<td>مسیر بدون خطا</td>
+</tr>
+<tr>
+<td>issue</td>
+<td>تیکت مسئله</td>
+<td></td>
+<td>technical debt</td>
+<td>بدهی فنی</td>
+</tr>
+<tr>
+<td>reproduce</td>
+<td>بازتولید خطا</td>
+<td></td>
+<td>refactor</td>
+<td>بازسازی کد</td>
+</tr>
+<tr>
+<td>root cause</td>
+<td>ریشه مشکل</td>
+<td></td>
+<td>legacy</td>
+<td>قدیمی/موروثی</td>
+</tr>
+<tr>
+<td>workaround</td>
+<td>راه‌حل موقتی</td>
+<td></td>
+<td>spaghetti code</td>
+<td>کد درهم</td>
+</tr>
+<tr>
+<td>patch</td>
+<td>وصله</td>
+<td></td>
+<td>hardcoded</td>
+<td>ثابت‌نویسی</td>
+</tr>
+<tr>
+<td>MVP</td>
+<td>کمینه قابل‌عرضه</td>
+<td></td>
+<td>scalable</td>
+<td>مقیاس‌پذیر</td>
+</tr>
+<tr>
+<td>ship it</td>
+<td>منتشر کن!</td>
+<td></td>
+<td>robust</td>
+<td>مقاوم</td>
+</tr>
+<tr>
+<td>breaking change</td>
+<td>تغییر شکست‌دهنده</td>
+<td></td>
+<td>flaky</td>
+<td>بی‌ثبات</td>
+</tr>
+<tr>
+<td>deprecated</td>
+<td>منسوخ</td>
+<td></td>
+<td>smoke test</td>
+<td>تست دود</td>
+</tr>
+<tr>
+<td>out of scope</td>
+<td>خارج از دامنه</td>
+<td></td>
+<td>quick win</td>
+<td>برنده سریع</td>
+</tr>
+<tr>
+<td>scope creep</td>
+<td>خزش دامنه</td>
+<td></td>
+<td>low-hanging fruit</td>
+<td>کار آسان پربازده</td>
+</tr>
+<tr>
+<td>silver bullet</td>
+<td>راه‌حل جادویی</td>
+<td></td>
+<td>bikeshedding</td>
+<td>بحث جزئیات</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۲ — جلسه و Scrum (فصل ۳)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sprint</td>
+<td>دوره کاری</td>
+<td></td>
+<td>velocity</td>
+<td>سرعت تیم</td>
+</tr>
+<tr>
+<td>backlog</td>
+<td>لیست کارها</td>
+<td></td>
+<td>retro</td>
+<td>جلسه بازنگری</td>
+</tr>
+<tr>
+<td>user story</td>
+<td>استوری کاری</td>
+<td></td>
+<td>demo</td>
+<td>نمایش کار</td>
+</tr>
+<tr>
+<td>story points</td>
+<td>واحد سختی</td>
+<td></td>
+<td>refinement</td>
+<td>آماده‌سازی استوری‌ها</td>
+</tr>
+<tr>
+<td>standup</td>
+<td>جلسه روزانه</td>
+<td></td>
+<td>epic</td>
+<td>مجموعه بزرگ</td>
+</tr>
+<tr>
+<td>blocker / blocked on</td>
+<td>مانع / قفل روی</td>
+<td></td>
+<td>assignee</td>
+<td>مسئول تیکت</td>
+</tr>
+<tr>
+<td>WIP</td>
+<td>در حال انجام</td>
+<td></td>
+<td>sprint goal</td>
+<td>هدف اسپرینت</td>
+</tr>
+<tr>
+<td>touch base</td>
+<td>هم‌حرفی سریع</td>
+<td></td>
+<td>circle back</td>
+<td>بعداً برمی‌گردیم</td>
+</tr>
+<tr>
+<td>deep dive</td>
+<td>بررسی عمیق</td>
+<td></td>
+<td>action item</td>
+<td>کار خروجی جلسه</td>
+</tr>
+<tr>
+<td>take it offline</td>
+<td>خارج از جلسه حل کن</td>
+<td></td>
+<td>bandwidth</td>
+<td>ظرفیت کاری</td>
+</tr>
+<tr>
+<td>heads-up</td>
+<td>خبر مقدماتی</td>
+<td></td>
+<td>on my plate</td>
+<td>بار کاری من</td>
+</tr>
+<tr>
+<td>park it</td>
+<td>بذاریم کنار</td>
+<td></td>
+<td>sanity check</td>
+<td>چک عقلانی</td>
+</tr>
+<tr>
+<td>align</td>
+<td>هم‌نظر شدن</td>
+<td></td>
+<td>make the call</td>
+<td>تصمیم نهایی</td>
+</tr>
+<tr>
+<td>push back</td>
+<td>رد کردن درخواست</td>
+<td></td>
+<td>pick up / hand off</td>
+<td>برداشتن/تحویل کار</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۳ — Code Review و Git (فصل ۴-۵)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PR / MR</td>
+<td>درخواست ادغام</td>
+<td></td>
+<td>draft PR / WIP</td>
+<td>ناتمام</td>
+</tr>
+<tr>
+<td>approve</td>
+<td>تأیید</td>
+<td></td>
+<td>request changes</td>
+<td>درخواست اصلاح</td>
+</tr>
+<tr>
+<td>LGTM</td>
+<td>Looks Good To Me</td>
+<td></td>
+<td>nit</td>
+<td>ایراد جزئی</td>
+</tr>
+<tr>
+<td>blocking</td>
+<td>مانع merge</td>
+<td></td>
+<td>non-blocking</td>
+<td>پیشنهادی</td>
+</tr>
+<tr>
+<td>address feedback</td>
+<td>رسیدگی به ریویو</td>
+<td></td>
+<td>squash</td>
+<td>له‌کردن کامیت‌ها</td>
+</tr>
+<tr>
+<td>rebase on top of</td>
+<td>ری‌بیس روی</td>
+<td></td>
+<td>fast-forward</td>
+<td>ادغام خطی</td>
+</tr>
+<tr>
+<td>diverged</td>
+<td>واگرا</td>
+<td></td>
+<td>out of sync</td>
+<td>ناهماهنگ</td>
+</tr>
+<tr>
+<td>cherry-pick</td>
+<td>برداشتن یک کامیت</td>
+<td></td>
+<td>revert the merge</td>
+<td>کامیت معکوس</td>
+</tr>
+<tr>
+<td>detached HEAD</td>
+<td>روی کامیت سرگردان</td>
+<td></td>
+<td>dirty tree</td>
+<td>تغییرات ذخیره‌نشده</td>
+</tr>
+<tr>
+<td>stash</td>
+<td>انبار موقت</td>
+<td></td>
+<td>hotfix</td>
+<td>فیکس اضطراری</td>
+</tr>
+<tr>
+<td>green/red build</td>
+<td>بیلد موفق/شکست</td>
+<td></td>
+<td>break the build</td>
+<td>بیلد را شکستن</td>
+</tr>
+<tr>
+<td>upstream / fork</td>
+<td>مخزن اصلی / کپی</td>
+<td></td>
+<td>maintainer</td>
+<td>نگهدارنده</td>
+</tr>
+<tr>
+<td>good first issue</td>
+<td>ایشوی آسان اول</td>
+<td></td>
+<td>semver / changelog</td>
+<td>نسخه‌گذاری / تاریخچه</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۴ — ارور و دیباگ (فصل ۶)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stack trace</td>
+<td>زنجیره خطا</td>
+<td></td>
+<td>exception</td>
+<td>استثنا</td>
+</tr>
+<tr>
+<td>throw / catch</td>
+<td>پرتاب/گرفتن</td>
+<td></td>
+<td>fatal</td>
+<td>مرگبار</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>اتمام مهلت</td>
+<td></td>
+<td>memory leak</td>
+<td>نشت حافظه</td>
+</tr>
+<tr>
+<td>race condition</td>
+<td>شرایط مسابقه</td>
+<td></td>
+<td>deadlock</td>
+<td>بن‌بست</td>
+</tr>
+<tr>
+<td>segfault</td>
+<td>خطای حافظه</td>
+<td></td>
+<td>crash / freeze</td>
+<td>سقوط / هنگ</td>
+</tr>
+<tr>
+<td>silent failure</td>
+<td>شکست بی‌صدا</td>
+<td></td>
+<td>intermittent</td>
+<td>متناوب</td>
+</tr>
+<tr>
+<td>regression</td>
+<td>بازگشت باگ</td>
+<td></td>
+<td>mitigation</td>
+<td>کاهش اثر</td>
+</tr>
+<tr>
+<td>steps to reproduce</td>
+<td>گام‌های بازتولید</td>
+<td></td>
+<td>expected/actual</td>
+<td>انتظار/واقعیت</td>
+</tr>
+<tr>
+<td>repro rate</td>
+<td>نرخ وقوع</td>
+<td></td>
+<td>log level</td>
+<td>سطح لاگ</td>
+</tr>
+<tr>
+<td>tail the logs</td>
+<td>دنبال زنده</td>
+<td></td>
+<td>grep</td>
+<td>جستجو</td>
+</tr>
+<tr>
+<td>trace ID</td>
+<td>شناسه ردیابی</td>
+<td></td>
+<td>noise</td>
+<td>لاگ بی‌ارزش</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۵ — فرانت و UI (فصل ۷)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>wireframe / mockup</td>
+<td>طرح اولیه / نهایی‌نما</td>
+<td></td>
+<td>prototype</td>
+<td>نمونه تعاملی</td>
+</tr>
+<tr>
+<td>design system / token</td>
+<td>سیستم طراحی / متغیر</td>
+<td></td>
+<td>pixel-perfect</td>
+<td>مو‌به‌مو طرح</td>
+</tr>
+<tr>
+<td>handoff / redlines</td>
+<td>تحویل / مشخصات</td>
+<td></td>
+<td>responsive</td>
+<td>واکنش‌گرا</td>
+</tr>
+<tr>
+<td>breakpoint / viewport</td>
+<td>نقطه شکست / ناحیه دید</td>
+<td></td>
+<td>above the fold</td>
+<td>بالای اسکرول</td>
+</tr>
+<tr>
+<td>modal / toast / tooltip</td>
+<td>پنجره/اعلان/راهنما</td>
+<td></td>
+<td>dropdown / toggle</td>
+<td>بازشو / کلید</td>
+</tr>
+<tr>
+<td>skeleton / spinner</td>
+<td>اسکلت / چرخان</td>
+<td></td>
+<td>CTA</td>
+<td>دکمه اقدام</td>
+</tr>
+<tr>
+<td>empty state</td>
+<td>حالت خالی</td>
+<td></td>
+<td>onboarding</td>
+<td>آشناسازی</td>
+</tr>
+<tr>
+<td>lazy loading</td>
+<td>بارگذاری تنبل</td>
+<td></td>
+<td>layout shift</td>
+<td>پرش چیدمان</td>
+</tr>
+<tr>
+<td>debounce</td>
+<td>تأخیردهی</td>
+<td></td>
+<td>a11y</td>
+<td>دسترس‌پذیری</td>
+</tr>
+<tr>
+<td>mobile-first</td>
+<td>موبایل‌محور</td>
+<td></td>
+<td>cross-browser</td>
+<td>همه مرورگرها</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۶ — بک‌اند و دواپس (فصل ۸-۹)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>endpoint / payload</td>
+<td>آدرس API / بدنه داده</td>
+<td></td>
+<td>CRUD</td>
+<td>ساخت/خواندن/ویرایش/حذف</td>
+</tr>
+<tr>
+<td>AuthN / AuthZ</td>
+<td>هویت / مجوز</td>
+<td></td>
+<td>rate limit / throttle</td>
+<td>سقف / کندسازی</td>
+</tr>
+<tr>
+<td>webhook / polling</td>
+<td>خبررسان / پرس‌وجوی دوره‌ای</td>
+<td></td>
+<td>idempotent</td>
+<td>تکراربی‌ضرر</td>
+</tr>
+<tr>
+<td>backward compatible</td>
+<td>سازگار با قبل</td>
+<td></td>
+<td>schema / migration</td>
+<td>ساختار / تغییر آن</td>
+</tr>
+<tr>
+<td>seed / index</td>
+<td>داده اولیه / نمایه</td>
+<td></td>
+<td>transaction</td>
+<td>بسته همه‌یا‌هیچ</td>
+</tr>
+<tr>
+<td>constraint</td>
+<td>قید</td>
+<td></td>
+<td>soft delete</td>
+<td>حذف منطقی</td>
+</tr>
+<tr>
+<td>audit log</td>
+<td>لاگ ممیزی</td>
+<td></td>
+<td>retry with backoff</td>
+<td>تلاش با فاصله</td>
+</tr>
+<tr>
+<td>queue / cron</td>
+<td>صف / کار زمان‌دار</td>
+<td></td>
+<td>health check</td>
+<td>بررسی سلامت</td>
+</tr>
+<tr>
+<td>staging / QA / prod</td>
+<td>محیط‌ها</td>
+<td></td>
+<td>canary</td>
+<td>نسخه آزمایشی</td>
+</tr>
+<tr>
+<td>deploy / roll back</td>
+<td>استقرار / بازگشت</td>
+<td></td>
+<td>downtime / uptime</td>
+<td>خرابی / در دسترس</td>
+</tr>
+<tr>
+<td>SLA</td>
+<td>توافق سطح سرویس</td>
+<td></td>
+<td>feature flag</td>
+<td>کلید قابلیت</td>
+</tr>
+<tr>
+<td>incident / outage</td>
+<td>حادثه / قطعی</td>
+<td></td>
+<td>on-call / page</td>
+<td>نوبت‌داری / هشدار</td>
+</tr>
+<tr>
+<td>sev1</td>
+<td>حادثه بحرانی</td>
+<td></td>
+<td>postmortem</td>
+<td>گزارش حادثه</td>
+</tr>
+<tr>
+<td>blameless</td>
+<td>بی‌سرزنش</td>
+<td></td>
+<td>SPOF</td>
+<td>نقطه خرابی واحد</td>
+</tr>
+<tr>
+<td>CI / CD</td>
+<td>یکپارچه‌سازی/تحویل مداوم</td>
+<td></td>
+<td>artifact</td>
+<td>خروجی بیلد</td>
+</tr>
+<tr>
+<td>p95</td>
+<td>صدک ۹۵ تاخیر</td>
+<td></td>
+<td>observability</td>
+<td>مشاهده‌پذیری</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۷ — معماری و چت و شغل (فصل ۱۰-۱۲)</h2>
+<table>
+<thead>
+<tr>
+<th>اصطلاح</th>
+<th>معنی</th>
+<th></th>
+<th>اصطلاح</th>
+<th>معنی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>monolith / microservices</td>
+<td>مونولیت / مایکروسرویس</td>
+<td></td>
+<td>decouple / coupled</td>
+<td>جداسازی / وابستگی</td>
+</tr>
+<tr>
+<td>trade-off</td>
+<td>معاوضه</td>
+<td></td>
+<td>over-engineering</td>
+<td>مهندسی بیش از حد</td>
+</tr>
+<tr>
+<td>SOLID / DRY / KISS / YAGNI</td>
+<td>اصول طراحی</td>
+<td></td>
+<td>SoC</td>
+<td>جداسازی دغدغه‌ها</td>
+</tr>
+<tr>
+<td>design pattern / anti-pattern</td>
+<td>الگو / ضدالگو</td>
+<td></td>
+<td>god object</td>
+<td>شیء خدا</td>
+</tr>
+<tr>
+<td>abstraction / leaky</td>
+<td>انتزاع / سوراخ</td>
+<td></td>
+<td>boilerplate</td>
+<td>کد تشریفاتی</td>
+</tr>
+<tr>
+<td>code smell</td>
+<td>بوِ کد</td>
+<td></td>
+<td>magic number</td>
+<td>عدد جادویی</td>
+</tr>
+<tr>
+<td>POC / spike</td>
+<td>اثبات ایده / بررسی سریع</td>
+<td></td>
+<td>RFC / spec</td>
+<td>سند طراحی</td>
+</tr>
+<tr>
+<td>greenfield / brownfield</td>
+<td>از صفر / روی موجود</td>
+<td></td>
+<td>vendor lock-in</td>
+<td>قفل فروشنده</td>
+</tr>
+<tr>
+<td>FYI / ASAP / ETA / TL;DR</td>
+<td>اطلاع / فوری / زمان / خلاصه</td>
+<td></td>
+<td>BTW / IMO / EOD</td>
+<td>راستی / به‌نظرم / آخر روز</td>
+</tr>
+<tr>
+<td>POC / TBD / N/A</td>
+<td>نمونه / نامشخص / بی‌ربط</td>
+<td></td>
+<td>e.g. / i.e.</td>
+<td>مثلاً / یعنی</td>
+</tr>
+<tr>
+<td>I'm on it</td>
+<td>درگیرشم</td>
+<td></td>
+<td>Keep me posted</td>
+<td>در جریان بذار</td>
+</tr>
+<tr>
+<td>Good catch</td>
+<td>نکته خوبی بود</td>
+<td></td>
+<td>My bad</td>
+<td>تقصیر من</td>
+</tr>
+<tr>
+<td>JD / YoE</td>
+<td>شرح شغل / سال سابقه</td>
+<td></td>
+<td>must-have / nice-to-have</td>
+<td>الزامی / امتیازی</td>
+</tr>
+<tr>
+<td>screening / take-home</td>
+<td>غربال / پروژه خانه</td>
+<td></td>
+<td>STAR</td>
+<td>قالب جواب رفتاری</td>
+</tr>
+<tr>
+<td>offer / negotiate</td>
+<td>پیشنهاد / مذاکره</td>
+<td></td>
+<td>notice period</td>
+<td>دوره اطلاع قبلی</td>
+</tr>
+<tr>
+<td>probation</td>
+<td>دوره آزمایشی</td>
+<td></td>
+<td>onboarding</td>
+<td>ورود به شرکت</td>
+</tr>
+</tbody>
+</table>
+<h2>۱۳.۸ — نقشه راه: بعد از این دوره چه کنم؟</h2>
+<div class="mermaid">
+flowchart LR
+    A["این دوره: ۲۵۰+ اصطلاح ✅"] --> B["استفاده فعال: هر اصطلاح را این هفته در چت/جلسه بگو"]
+    B --> C["ورودی روزانه: مستندات + آدیو-بلاگ‌های فنی انگلیسی"]
+    C --> D["خروجی: بلاگ‌نویسی/دوکیومنت انگلیسی بنویس"]
+    D --> E["مصاحبه: LinkedIn و رفتار مصاحبه انگلیسی"]
+    E --> F["قله: remote work در تیم بین‌المللی 🌍"]
+</div>
+
+<p><strong>سه توصیه پایانی:</strong></p>
+<ol>
+<li><strong>قانون «۳ بار»:</strong> هر اصطلاح جدید را سه بار در بافت واقعی استفاده کن (چت، کامنت PR، جلسه) — بعد از حافظه‌ات نمی‌رود. یادگیری واژه = مصرف واژه.</li>
+<li><strong>یک دفترچه اصطلاح شخصی بساز</strong> (Notion/فایل): هر بار اصطلاح ناشناسی دیدی — بنویس، تلفظش، جمله‌ای که در آن دیدی. بعد از ۳ ماه، دیکشنری شخصی‌ات از هر دوره‌ای قوی‌تر است.</li>
+<li><strong>داکیومنت‌های انگلیسی را با صدای بلند بخوان</strong> — تلفظ با خواندن ساخته می‌شود؛ و تلفظ درست اعتماد تیم را می‌سازد (جدول فصل ۱ را هر ماه یک‌بار مرور کن).</li>
+</ol>
+<p><strong>پایان دوره:</strong> تو حالا ۲۵۰+ اصطلاح صحنه‌های واقعی را می‌شناسی — از standup تا postmortem، از PR تا offer. ترس از «انگلیسی جلسه» جای خودش را به لحن مطمئن داده. دنیای بین‌المللی توسعه نرم‌افزار، منتظر توست! 🌍🚀</p></section>
+<script src="mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad:true, theme:'base',
+  themeVariables: { fontFamily:'Vazirmatn, Tahoma', fontSize:'13px',
+    primaryColor:'#faf5ff', primaryBorderColor:'#7e22ce', primaryTextColor:'#1f1430',
+    lineColor:'#64748b', secondaryColor:'#fffbeb', tertiaryColor:'#faf7fd' },
+  flowchart: { htmlLabels:true, curve:'basis' } });</script>
+</body></html>
